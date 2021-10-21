@@ -30,3 +30,7 @@ Isso será abordado durante o minicurso.
 
 Também sugiro que instalem o [RStudio](https://www.rstudio.com/products/rstudio/download/).  
 
+# Mais informações
+
+Endereço para a apresentação do dia01: https://minicurso-elaboracao-mapa-r.netlify.app
+

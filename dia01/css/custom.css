@@ -116,6 +116,15 @@
 /*  float: right; */
 }
 
+a.footer-link {
+    position: absolute;
+    bottom: 5px;
+    right: 50px;
+    height: 40px;
+    width: 150px;
+    color: #023d4d;
+}
+
 .left-column2 {
   color: #777;
   width: 40%;
