@@ -953,6 +953,21 @@ class: inverse, center, middle
 
 ---
 
+---
+class: center
+
+# Grato!
+
+.pull-left[
+![](figuras/Meu-agradecimento.gif)
+]
+
+.pull-right[
+<img style="border-radius: 60%;" src="figuras/final-slide_DSC_0507.jpg" width="250"/>
+]
+
+---
+
 # O que acrescentar?
 
 para o dia 2, explorar a parte de limpeza dos dados
