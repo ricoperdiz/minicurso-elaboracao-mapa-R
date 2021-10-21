@@ -1091,9 +1091,9 @@ class: inverse, center
 ]
 
 .pull-right[
-Dúvidas? Entrem em contato!  
-  .fat[.orange[[`r icons::fontawesome("github")` @ricoperdiz](https://github.com/ricoperdiz)]]  
-  [`r icons::fontawesome("twitter")` @ricoperdiz](https://twitter.com/ricoperdiz)  
-  [`r icons::fontawesome("link")` ricardoperdiz.com](https://ricardoperdiz.com)  
-  [`r icons::fontawesome("paper-plane")` ricoperdiz@gmail.com](mailto:ricoperdiz@gmail.com)  
+.LARGE[Dúvidas? Entrem em contato!]  
+  .LARGE[GitHub: ricoperdiz]  
+  .LARGE[Twitter: ricoperdiz]  
+  .LARGE[ricardoperdiz.com]  
+  .LARGE[ricoperdiz@gmail.com]  
 ]
