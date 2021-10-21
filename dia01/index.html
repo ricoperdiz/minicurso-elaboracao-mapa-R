@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Elaboração de mapas de distribuição de espécies em R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ricardo de Oliveira Perdiz" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/xaringanExtra_fit-screen-0.2.6/fit-screen.js"></script>
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+    <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <script src="libs/jquery-3.5.1/jquery.min.js"></script>
+    <link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+    <script src="libs/datatables-binding-0.18/datatables.js"></script>
+    <link href="libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+    <script src="libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+    <link href="libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+    <script src="libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="css/footer-header.css" type="text/css" />
+    <link rel="stylesheet" href="css/ribbon.css" type="text/css" />
+    <link rel="stylesheet" href="css/custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+
+
+
+
+
+layout: false
+
+name: title
+class: left, bottom
+background-image: url("figuras/title-slide.001.jpeg")
+background-size: cover
+
+.pull-left[
+
+# .midlarge[.black[Elaboração de mapas de distribuição de espécies em R]]
+
+## .mid[.black[Comandos básicos para você preparar seu próprio mapa]]
+
+#### .large[.black[Ricardo de Oliveira Perdiz | 20--21 Out 2021]]
+
+]
+
+&lt;div class="cr cr-top cr-left cr-sticky cr-black"&gt;COVID19&lt;/div&gt;
+
+---
+
+layout: true
+
+&lt;div class="cr cr-top cr-left cr-sticky cr-black"&gt;COVID19&lt;/div&gt;
+
+
+---
+
+
+
+class: middle, center, hide_logo
+background-image: url("figuras/who-am-i.001.jpeg")
+background-size: cover
+
+
+.pull-left[
+
+
+### Sobre mim
+
+&lt;img style="border-radius: 60%;" src="figuras/ROPerdiz.jpg" width="100px"/&gt;
+
+  **Dr. em Botânica (INPA)**  
+  **Analista de dados**  
+  
+  [&lt;svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"&gt;&lt;/path&gt;&lt;/svg&gt; @ricoperdiz](https://github.com/ricoperdiz)  
+  [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; @ricoperdiz](https://twitter.com/ricoperdiz)  
+  [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"&gt;&lt;/path&gt;&lt;/svg&gt; ricardoperdiz.com](https://ricardoperdiz.com)  
+  [&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M440 6.5L24 246.4c-34.4 19.9-31.1 70.8 5.7 85.9L144 379.6V464c0 46.4 59.2 65.5 86.6 28.6l43.8-59.1 111.9 46.2c5.9 2.4 12.1 3.6 18.3 3.6 8.2 0 16.3-2.1 23.6-6.2 12.8-7.2 21.6-20 23.9-34.5l59.4-387.2c6.1-40.1-36.9-68.8-71.5-48.9zM192 464v-64.6l36.6 15.1L192 464zm212.6-28.7l-153.8-63.5L391 169.5c10.7-15.5-9.5-33.5-23.7-21.2L155.8 332.6 48 288 464 48l-59.4 387.3z"&gt;&lt;/path&gt;&lt;/svg&gt; ricoperdiz@gmail.com](mailto:ricoperdiz@gmail.com)  
+
+]
+
+???
+
+Meu nome é Ricardo de Oliveira Perdiz. 
+Sou um biólogo com mestrado e doutorado em botânica, minha linha de pesquisa é com a evolução e sistemática da flora Neotropical, em especial a família do palo santo, mirra, breus, e amesclas, conhecida pelo nome científico Burseraceae. Também me dedico à criação de ferramentas para facilitar a análise de dados taxonômicos e produção de monografias taxonômicas.
+
+
+---
+
+# Sumário
+
+
+## [Introdução](#introducao) básica ao R
+
+--
+
+## Tutorial para elaborar o mapa
+
+--
+
+### Carregar [pacotes](#pacotes)
+
+--
+
+### Importar [dados](#dados)
+
+--
+
+### Checagem e limpeza de [dados](#limpeza)
+
+--
+
+### Criação de [variáveis](#variaveis)
+
+--
+
+### [Plota](#plota) o mapa
+
+---
+
+## Versão simplificada do tutorial
+
+### Carregar [pacotes](#pacotes)
+
+### Importar [dados](#dados)
+
+### .red[Checagem e limpeza de dados]
+
+### Criação de [variáveis](#variaveis)
+
+### [Plota](#plota) o mapa
+
+???
+
+Apresentarei uma versão simplificada do tutorial, SEM A CHECAGEM e LIMPEZA dos DADOS (RISCAR ESSA PARTE).
+
+Caso haja tempo, eu explorarei essa parte amanhã.  
+
+---
+name: introducao
+class: inverse, center, middle
+### Introdução básica
+
+![R](figuras/R.png)
+
+???
+
+Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem simplificados que são necessários para manipulação de dados em ambiente R.  
+
+---
+
+### O que é o R? 
+
+**R** é uma **linguagem** e **ambiente** para análise estatística e produção de gráficos de alta qualidade.
+
+--
+
+**R** pode ser utilizado para manipular e analisar dados, criar gráficos, e simulação computacional.
+
+--
+
+**R** pode ter extensão de funções através do uso de **[pacotes](https://www.cran.r-project.org/web/packages/)**, baixados por meio do **C**omprehensive **R** **A**rchive **N**etwork (**[CRAN](https://www.cran.r-project.org))**
+
+---
+
+### Por que usar o R???
+
+--
+
+1. É grátis
+
+--
+
+2. Gráficos excelentes
+
+--
+
+3. Diversidade de ferramentas (=pacotes) para fazer análises estatísticas
+
+--
+
+4. Liberdade para criação de funções
+
+---
+
+### Como obter o R?
+
+Visitar a página do projeto: [www.r-project.org](www.r-project.org).
+
+--
+
+Verificar este tutorial para instalação: [http://www.botanicaamazonica.wiki.br/labotam/doku.php?id=alunos:r.perdiz:disciplina:inicio](http://www.botanicaamazonica.wiki.br/labotam/doku.php?id=alunos:r.perdiz:disciplina:inicio).
+
+---
+
+### Qual é a cara do R?
+
+##### R no **MAC OS X**
+
+![R no MAC OS X](figuras/01.png)
+
+---
+
+### Qual é a cara do R?
+
+##### R no **Windows**
+
+![R no Windows](figuras/cara_R_windows.png)
+
+---
+
+### Como é a linguagem do R
+
+&gt; "*Orientada a objetos*" - *object-oriented programming*
+
+![budasaid](figuras/budasaid.jpg)
+
+---
+
+### Como é a linguagem do R
+
+* Escrever em R é como escrever em português, inglês etc
+
+--
+
+* Comunicação - ação - meios a um fim
+
+--
+
+* Programar, em geral, consiste em definir *funções* e *variáveis*
+
+--
+
+* *Variáveis* podem ser números ou palavras; guardamos esses valores para uso posterior 
+
+--
+
+* *Funções* executam comandos, por meio de *argumentos*
+
+--
+
+* Comandos geram resultados
+
+---
+
+### Variáveis
+
+Variáveis em R são assinaladas utilizando a notação ` &lt;- `.  
+
+
+.panelset[
+
+.panel[.panel-name[Código R]
+
+
+```r
+&gt; string &lt;- 'Olá, Itacoatiara!'
+&gt; meu_numero &lt;- 25
+```
+
+]
+
+.panel[.panel-name[Resultado 1]
+
+
+```r
+&gt; string
+```
+
+```
+## [1] "Olá, Itacoatiara!"
+```
+
+```r
+&gt; meu_numero
+```
+
+```
+## [1] 25
+```
+
+]
+
+.panel[.panel-name[Resultado 2]
+
+
+```r
+&gt; print(string)
+```
+
+```
+## [1] "Olá, Itacoatiara!"
+```
+
+```r
+&gt; print(meu_numero)
+```
+
+```
+## [1] 25
+```
+
+]
+
+]
+
+---
+
+### Funções e argumentos
+
+* **Função** -&gt; é um elemento em R que requer uma ação do computador. Cumpre determinada tarefa.
+
+--
+
+* **Argumento** -&gt; especifica ou modifica como uma função trabalha. É especificado dentro de "parênteses" após o nome da função
+
+
+```r
+&gt; seq(from = 0,to = 10,by =1)
+```
+
+```
+##  [1]  0  1  2  3  4  5  6  7  8  9 10
+```
+
+---
+
+### Como é a linguagem do R
+
+##### Anatomia de uma linha de comando
+
+.panelset[
+.panel[.panel-name[Código R]
+
+
+```r
+&gt; x &lt;-sample(1:10,20,replace=TRUE)
+```
+
+]
+
+.panel[.panel-name[Código R 2]
+
+
+```r
+&gt; x &lt;- sample(1:10, 20, replace = TRUE)
+```
+
+]
+
+.panel[.panel-name[O que tem em x?]
+
+
+```r
+&gt; print(x)
+```
+
+```
+##  [1]  9  5  3  1  6 10  8 10  1  8  8  6  1  8  7  2  8  6  6  5
+```
+
+]
+
+.panel[.panel-name[Média de x]
+
+
+```r
+&gt; mean(x)
+```
+
+```
+## [1] 5.9
+```
+
+]
+
+]
+
+---
+
+### Detalhes *nomenclaturais* em R
+
+- Separador de decimal é ponto (= "."); vírgula separa **argumentos**
+
+--
+
+- O símbolo de *igual* "=" atribui valores aos **argumentos**
+
+--
+
+- Nomes de **argumentos** podem ser omitidos, desde que os valores estejam seguindo a ordem pré-determinada da função. Ver o '?help'
+
+---
+
+### O meu melhor amigo é o **?** (ou a ajuda do R!)
+
+Dúvidas são comuns quando programamos.
+
+--
+
+O R possui um excelente recurso, o `?`.
+
+--
+
+Uma das maneiras é digitar "?" + "*nomeDaFunção*"
+
+
+```r
+?seq
+```
+
+---
+
+### O meu melhor amigo é o **?** (ou a ajuda do R!)
+
+![helpseq](figuras/seq.png)
+
+---
+
+### Viva o poder da linguagem R
+
+.panelset.sideways[
+.panel[.panel-name[Gráfico 1]
+![](index_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+]
+
+.panel[.panel-name[Gráfico 2]
+
+![](index_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+]
+
+.panel[.panel-name[Mapas em R com `maps`]
+
+![](index_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+]
+
+.panel[.panel-name[Mapas em R com `tmaps`]
+![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+]
+
+.panel[.panel-name[Mapas em R com `ggmap`]
+![](index_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+]
+
+]
+
+---
+
+### Intervalo
+
+!['coffeandcode'](figuras/coffeCode.jpg)
+
+---
+
+## Recursos para aprender a linguagem **R**
+
+#### [Curso básico de introdução à linguagem R](https://intror.netlify.app)
+
+
+![Curso R](figuras/cursoR.png)
+
+---
+
+## Recursos para aprender linguagens de programação - *JavaScript*
+
+#### [Grasshopper](https://grasshopper.app/pt_br/)
+
+![grasshopper](figuras/grasshopper.png)
+
+---
+
+## Mais recursos???
+
+--
+
+### Buscar, sempre! Google, Yahoo, etc.
+
+--
+
+### [R-bloggers](https://www.r-bloggers.com/)
+
+
+---
+
+## Minicurso baseado na postagem abaixo:
+
+[Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
+
+![Postagem](figuras/postagem.png)
+
+???
+
+O tutorial é bem simples e visa a produção de um mapa de distribuição geográfica utilizando dados que abrangem a distribuição espacial de duas espécies de _[Burseraceae](https://en.wikipedia.org/wiki/Burseraceae)_, _Protium aracouchini_ (Aubl.) Marchand e _P. heptaphyllum_ (Aubl.) Marchand.  A primeira planta faz parte de um complexo de espécies informalmente denominado complexo _Protium aracouchini_, cuja sistemática e taxonomia vem sendo objeto de estudo em [meu doutorado](http://www.botanicaamazonica.wiki.br/labotam/doku.php?id=alunos:r.perdiz:projeto:inicio). A segunda espécie, _P. heptaphyllum_, é objeto de estudo de [Gabriel Damasco](https://ib.berkeley.edu/labs/fine/Site/Gabriel.html), colaborador do LABOTAM e aluno de doutorado na Universidade da Califórnia, Berkeley.
+
+Os dados foram baixados do [herbário virtual do Jardim Botânico de Nova Iorque](http://sweetgum.nybg.org/science/vh/) que é onde trabalha o especialista em Burseraceae, Dr. Douglas Daly, e cuja coleção de espécimes e dados vêm sendo bem cuidada há algumas décadas. Para esta postagem, filtramos apenas os dados para as duas espécies citadas acima.
+
+---
+
+## Assuntos abordados na postagem
+
+* (Instalar e) Carregar pacotes
+
+* Importação de dados
+
+* Checagem de dados
+
+* Criação de variáveis
+
+* Plotagem do mapa
+
+---
+
+## Instalando pacotes
+
+
+```r
+install.packages("maps")
+```
+
+![Instalando pacotes](figuras/instalando_pacotes.png)
+
+---
+
+## Carregando os pacotes
+
+
+```r
+library("maps")
+```
+
+???
+
+A postagem original faz uso dos pacotes _[maps](https://cran.r-project.org/web/packages/maps/maps.pdf)_ (para plotar o mapa), _[RColorBrewer](https://cran.r-project.org/web/packages/RColorBrewer/RColorBrewer.pdf)_ (paleta de cores), _[magrittr](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)_ (pipe, ou `%&gt;%`) e _[dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)_ (manipulação de 'dataframes').
+
+Neste minicurso, utilizaremos apenas o pacote `dplyr`, a fim de simplificar o aprendizado.  
+
+---
+name: dados
+## Importando os dados
+
+Os dados estão reunidos em um arquivo chamado `dados.csv`.
+
+--
+
+As informações estão separadas por tabulação e codificadas em UTF-8.
+
+--
+
+Você pode baixar os dados direto da página do GitHub ou fazer uso do comando abaixo para ler diretamente os dados da rede.  
+
+
+```r
+protium &lt;-
+  read.table(
+    file = url(
+      "https://raw.githubusercontent.com/ricoperdiz/Tutorials/master/R_make_a_map/dados.csv"
+    ),
+    header = TRUE,
+    as.is = TRUE,
+    sep = '\t',
+    dec = '.'
+  )
+```
+
+---
+
+## Checagem inicial dos dados
+
+<div id="htmlwidget-82b734232110c1813eeb" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-82b734232110c1813eeb">{"x":{"filter":"none","fillContainer":true,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152","153","154","155","156","157","158","159","160","161","162","163","164","165","166","167","168","169","170","171","172","173","174","175","176","177","178","179","180","181","182","183","184","185","186","187","188","189","190","191","192","193","194","195","196","197","198","199","200","201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","220","221","222","223","224","225","226","227","228","229","230","231","232","233","234","235","236","237","238","239","240","241","242","243","244","245","246","247","248","249","250","251","252","253","254","255","256","257","258","259","260","261","262","263","264","265","266","267","268","269","270","271","272","273","274","275","276","277","278","279","280","281","282","283","284","285","286","287","288","289","290","291","292","293","294","295","296","297","298","299","300","301","302","303","304","305","306","307","308","309","310","311","312","313","314","315","316","317","318","319","320","321","322","323","324","325","326","327","328","329","330","331","332","333","334","335","336","337","338","339","340","341","342","343","344","345","346","347","348","349","350","351","352","353","354","355","356","357","358","359","360","361","362","363","364","365","366","367","368","369","370","371","372","373","374","375","376","377","378","379","380","381","382","383","384","385","386","387","388","389","390","391","392","393","394","395","396","397","398","399","400","401","402","403","404","405","406","407","408","409","410","411","412","413","414","415","416","417","418","419","420","421","422","423","424","425","426","427","428","429","430","431","432","433","434","435","436","437","438","439","440","441","442","443","444","445","446","447","448","449","450","451","452","453","454","455","456","457","458","459","460","461","462","463","464","465","466","467","468","469","470","471","472","473","474","475","476","477","478","479","480","481","482","483","484","485","486","487","488","489","490","491","492","493","494","495","496","497","498","499","500","501","502","503","504","505","506","507","508","509","510","511","512","513","514","515","516","517","518","519","520","521","522","523","524","525","526","527","528","529","530","531","532","533","534","535","536","537","538","539","540","541","542","543","544","545","546","547","548","549","550","551","552","553","554","555","556","557","558","559","560","561","562","563","564","565","566","567","568","569","570","571","572","573","574","575","576","577","578","579","580","581","582","583","584","585","586","587","588","589","590","591","592","593","594","595","596","597","598","599","600","601","602","603","604","605","606","607","608","609","610","611","612","613","614","615","616","617","618","619","620","621","622","623","624","625","626","627","628","629","630","631","632","633","634","635","636","637","638","639","640","641","642","643","644","645","646","647","648","649","650","651","652","653","654","655","656","657","658","659","660","661","662","663","664","665","666","667"],["A_A_de_Oliveira","A_B_Anderson","A_C_Londoño","A_C_Londoño","A_C_Weber","A_Castillo","A_Castillo","A_Castillo","A_Castillo","A_Castillo","A_Castillo","A_Castillo","A_Chaviel","A_Dik","A_Dik","A_Dik","A_Euponino","A_F_Fuentes","A_Fernandez","A_Fernandez","A_Fernandez","A_Fernandez","A_Fernandez","A_Fernandez","A_Gröger","A_Gröger","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_H_Gentry","A_Knob","A_Krapovickas","A_L_Bernardi","A_Le_Goff","A_Lisboa","A_Loureiro","A_M_Amorim","A_M_Amorim","A_M_Amorim","A_M_Carrión","A_M_Carrión","A_M_V_de_Carvalho","A_M_V_de_Carvalho","A_M_V_de_Carvalho","A_M_V_de_Carvalho","A_M_V_de_Carvalho","A_Nave","A_Nave","A_P_Maceda","A_Poma","A_S_Silva","A_Sumabila","A_Webber","B_A_Krukoff","B_A_S_Pereira","B_A_S_Pereira","B_A_S_Pereira","B_D_Sucre","B_G_Bordenave","B_G_Bordenave","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_G_Stergios_D_","B_Hoffman","B_Hoffman","B_Hoffman","B_K_Holst","B_K_Holst","B_K_Holst","B_K_Holst","B_M_Boom","B_M_Boom","B_M_Boom","B_M_Boom","B_M_Boom","B_M_Boom","B_Maguire","B_Oldeman","B_R_Pérez_Marisevich","B_Riéra","B_S_Amorim","B_S_Amorim","B_W_Nelson","B_W_Nelson","B_W_Nelson","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Cid_Ferreira","C_A_Mackenzie","C_A_Mackenzie","C_A_Sothers","C_C_Berg","C_C_Berg","C_C_Berg","C_C_Berg","C_C_Berg","C_C_Berg","C_C_Berg","C_Chumacero","C_E_Calderón","C_Farney","C_Farney","C_Farney","C_Farney","C_Grández","C_Knab-Vispo","C_Knab-Vispo","C_Knab-Vispo","C_Knab-Vispo","C_P_G_Feuillet","C_R_Sperling","C_S_Rosário","C_S_Rosário","C_S_Rosário","Collector_unspecified","Collector_unspecified","Collector_unspecified","Collector_unspecified","Collector_unspecified","D_A_Folli","D_A_Folli","D_A_Neill","D_A_Neill","D_A_Neill","D_Alvarenga","D_Alvarenga","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_C_Daly","D_Cárdenas","D_Cárdenas","D_Cárdenas","D_Cárdenas","D_Clarke","D_Coêlho","D_Coomes","D_Coomes","D_D_Ackerly","D_F_Austin","D_F_Coêlho","D_Loubry","D_Restrepo","D_Restrepo","D_Restrepo","D_W_Stevenson","E_de_Oliveira","E_de_Oliveira","E_de_Oliveira","E_Foldats","E_Foldats","E_Freire","E_Gudiño","E_L_Sette_Silva","E_L_Sette_Silva","E_Lleras","E_Lleras","E_M_N_Ferraz","E_M_N_Ferraz","E_M_N_Ferraz","E_M_N_Ferraz","E_M_N_Ferraz","E_M_N_Ferraz","E_M_Zardini","E_M_Zardini","E_M_Zardini","E_Marin","E_Melgueiro","E_P_Killip","E_Palheta","F_Dionizia","F_Dionizia","F_E_L_de_Miranda","F_E_L_de_Miranda","F_J_Breteler","F_J_Guánchez","F_J_Guánchez","F_J_Guánchez","F_Mamani_M_","F_S_Juchum","F_Souza_Santos","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_A_Aymard_Corredor","G_Cremers","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Davidse","G_Dos_Santos","G_F_Arbocz","G_L_Sobel","G_Martinelli","G_Martinelli","G_Meyer","G_Meyer","G_P_Lewis","G_S_Bunting","G_S_Hartshorn","G_Sousa","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_T_Prance","G_Vieira","G_Zimmermann","G_Zimmermann","G_Zimmermann","H_C_de_Lima","H_H_Rusby","H_Jiménez_Saa_","H_L_Clark","H_L_Clark","H_L_Clark","H_L_Clark","H_L_Clark","H_S_Irwin","H_S_Irwin","I_Cordeiro","I_Cordeiro","I_Cordeiro","I_G_Vargas_Caballero","I_G_Vargas_Caballero","I_L_do_Amaral","I_L_do_Amaral","J_A_Ratter","J_A_Silva","J_A_Steyermark","J_A_Steyermark","J_A_Steyermark","J_A_Steyermark","J_A_Steyermark","J_A_Steyermark","J_Brandbyge","J_C_Betancur","J_C_Lindeman","J_C_Solomon","J_C_Solomon","J_C_Solomon","J_E_de_Paula","J_E_L_S_Ribeiro","J_E_L_S_Ribeiro","J_E_L_S_Ribeiro","J_F_Duivenvoorden","J_F_Duivenvoorden","J_G_Graham","J_G_Jardim","J_G_Jardim","J_G_Jardim","J_Guillen","J_L_Hage","J_L_Paixão","J_L_Zarucchi","J_L_Zarucchi","J_L_Zarucchi","J_L_Zarucchi","J_L_Zarucchi","J_L_Zarucchi","J_M_Pires","J_O_Ramírez","J_P_Souza","J_R_M_Nascimento","J_R_M_Nascimento","J_R_Nascimento","J_R_Pirani","J_Ramos","J_Ramos","J_Ramos","J_Revilla","J_Revilla","J_Rosales","J_Rosales","J_S_Blanchet","J_S_de_la_Cruz","J_Velazco","J_Velazco","J_Velazco","J_Velazco","J_Velazco","J_Velazco","J_Zuleta","K_Almeida","K_M_Redden","L_A_Delgado","L_A_Delgado","L_A_Delgado","L_A_Delgado","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Mattos_Silva","L_A_Pereira","L_C_Bernacci","L_Chacon","L_F_Pérez_de_Molas","L_F_Pérez_de_Molas","L_J_Dorr","L_J_Dorr","L_O_A_Teixeira","L_O_A_Teixeira","L_O_A_Teixeira","L_R_Marinho","L_S_Coêlho","L_S_Coêlho","L_Salas","L_Salas","L_V_Ferreira","L_A_Gomes","M_Aguilar","M_Aparecida_da_Silva","M_Aulestia","M_Aulestia","M_C_de_Assis","M_Colella","M_de_N_do_C_Bastos","M_F_da_Silva","M_Fleury","M_G_da_Silva","M_G_da_Silva","M_G_da_Silva","M_G_da_Silva","M_G_da_Silva","M_G_Vieira","M_H_Nee","M_H_Nee","M_H_Nee","M_H_Nee","M_H_Nee","M_H_Nee","M_H_Nee","M_H_Nee","M_Hoff","M_J_Jansen-Jacobs","M_Kuhlmann","M_L_Alencar","M_L_Alencar","M_L_Alencar","M_L_Alencar","M_L_Fonseca","M_Lizarralde","M_Lopes","M_Lopes","M_M_Pignal","M_N_Alexiades","M_Saldías_Paz","M_Saldías_Paz","M_Saldías_Paz","M_Sobral","M_T_Madison","M_Velayos_Rodriguez","M_Yanez","N_A_Rosa","N_A_Rosa","N_A_Rosa","N_A_Rosa","N_C_A_Pitman","N_Cuello_A_","N_Dezzeo","N_M_Lepsch_da_Cunha","N_T_da_Silva","N_T_da_Silva","O_Buchtien","O_C_Nascimento","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Huber","O_Marulanda","O_P_Monteiro","P_A_C_L_Assunção","P_A_Mutchnick","P_A_Mutchnick","P_A_Mutchnick","P_A_Mutchnick","P_Acevedo-Rodríguez","P_B_Cavalcante","P_da_C_Gadelha_Neto","P_da_C_Gadelha_Neto","P_E_Berry","P_E_Berry","P_Fiaschi","P_Fiaschi","P_Fiaschi","P_Fiaschi","P_Fiaschi","P_Fiaschi","P_G_Delprete","P_J_M_Maas","P_J_M_Maas","P_J_M_Maas","P_J_M_Maas","P_J_M_Maas","P_J_M_Maas","P_L_B_Lisboa","P_V_A_Fine","P_V_A_Fine","R_A_X_Borges","R_C_de_Mendonça","R_Callejas_Posada","R_Callejas_Posada","R_Callejas_Posada","R_Callejas_Posada","R_Evans","R_Gómez","R_Gómez","R_Gómez","R_Guillén","R_Guillén","R_Guillén","R_Guillén","R_Guillén","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_L_Liesner","R_M_Harley","R_M_Harley","R_M_Harley","R_P_Belém","R_P_Belém","R_P_Belém","R_R_Rodrigues","R_S_Pinheiro","R_S_Rodrigues","R_Spruce","R_Valencia","R_Vásquez_Martínez","R_Vásquez_Martínez","R_Vásquez_Martínez","R_Vásquez_Martínez","R_Vásquez_Martínez","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_A_Mori","S_C_de_Sant_Ana","S_C_de_Sant_Ana","S_C_de_Sant_Ana","S_D_Knapp","S_de_Souza_Silva","S_Elcoro","S_Elcoro","S_F_Smith","S_Flores","S_G_da_Fonsêca","S_G_Freire","S_Panfil","S_R_Madriñán","S_T_McDaniel","T_B_Cavalcanti","T_B_Croat","T_B_Croat","T_B_Croat","T_C_Plowman","T_C_Plowman","T_C_Plowman","T_D_Pennington","T_D_Pennington","T_J_Killeen","T_J_Killeen","T_J_Killeen","T_J_Killeen","T_J_Killeen","T_McDowell","T_S_dos_Santos","T_S_dos_Santos","T_W_Henkel","T_W_Henkel","T_W_Henkel","U_N_Maciel","V_C_Souza","V_C_Souza","W_A_Diaz","W_A_Diaz","W_A_Diaz","W_A_Diaz","W_A_Ducke","W_A_Ducke","W_A_Ducke","W_A_Ducke","W_A_Ducke","W_A_Palacios","W_A_Palacios","W_A_Palacios","W_A_Palacios","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_A_Rodrigues","W_C_Steward","W_L_Balée","W_L_Balée","W_L_Balée","W_L_Balée","W_L_Balée","W_L_Balée","W_L_Balée","W_Meier","W_Meier","W_Meier","W_Meier","W_Meier","W_R_Anderson","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","W_W_Thomas","Y_Fernandez"],["278","214","1486","493","s_n","1609","2297","2372","4611","4650","5004","5005","144","1579","1606","1616","186","5532","4251","4335","4897","5796","6622","6921","338","963","12970","12974","21355","37260","40619","46353","46911","46957","50184","51087","51350","57804","62798","65167","738","45701","3_81","107","s_n_","s_n","1499","2165","361","283","342","1010","4554","4668","855","942","1718","2162","685","149_A","3","1","1086","6857","2874","3249","3256","10476","140","287","10042","10438","10752","10955","11010","11565","13017","13794","14561","4551","6488","6489","3047","3051","3061","3318","10444","10475","10599","5134","6042","8592","33140","B_2632","1263","1232","1394","1440","1360","1447","313","10147B","10694","227","4035","4301","4421","4497","4605","4671","5063","5488","5697","5880","6367","6442","6599","6659","6707","7015","7410","7573","8059","8198","8674","9137","9404","9407","9421","9461","9467","9813","9832","s_n_","s_n","142","P18159","P18448","P18454","P18490","P18794","P19552","P19898","793A","2949","2634","298195","3369","4496","1897","546","618","67","678","4042","6286","1780","1902","2038","1535","17","1838","1950","s_n","2087","626","14012","7255","7316","1232","931","1080","2190","2231","5413","5483","5495","5540","768","980","4009","4127","4130","4132","464","s_n","1","69","151","7003","s_n","1543","166","25","251","930","3531","3577","3893","9142","9455","177","67","203","225","P17428","P17568","327","480","506","509","525","533","5487","5537","9987","570","108","37290","s_n","52","94","395","408","4803","1531","3289","415","1189","29","178","12707","152","16879","17266","1957","1958","5599","6033","6365","6398","6520","7933","7950","8060","8151","8326","8981","9099","9819","12467","12241_A","12322","12375","12961","13574","13623","13717","13832","14269","14609","14822","15003","15325","15342","15488","15494","15614","16019","16268","17266","18310","18576","18748","21858","26820","27010","27135","682","4473","4590","12279","12295","144","2","739","11022","2419","384","11349","12425a","13973","15036","15451","15675","15688","16156","18038","18356","2039","21637","21649","2190","23053","24234","30497","5792","58602","7556","8214","8295","9068","P24722","P25201","P25496","320","161","198","57","2001","1335","1685","6750","6962","7243","7285","7368","5017","54576","101","21","93","5294","6202","1686","80","R6879","201","111635","113963","117900","119431","122130","95756","33968","9969","158","17176","6174","6178","406","1403","906","971","2736","603","2735","2780","474","573","126","415","391","2551","3089","3458","3522","3775","3833","10737","27","2411","s_n_","s_n","732","2382","1147","626","883","4352","8502","2038","91","1661","4044","1655","228","736","750","82","848","244","132","5733","1073","1269","270","778","1411","1705","1951","2004","2005","2949","4163","4606","126","2608","501","1572","1602","4696","4739","1210","13","835","174_B","140","217","TT-125","TT-77","52","367","1163","2228","3189","633","498","1720","67","563","383","3289","4312","4673","5503","5806","1024","33773","34821","35830","40229","41406","42628","42882","49728","5381","6875","311","192_VPI","463_VPI","614","703","1467","ML288","14","148","3062","1251","1275","13","4807","4736","6219","6477","449","1598","2062","648","679","1596_A","629","384","249","4498","4579","2071","62","12058","1431","1671","1998","3419","4741","4908","5014","5159","6406","717","773","960","1835","290","22","1380","1546","1618","887","10446","650","3316","3409","5124","5209","1330","1728","2049","2058","2221","2521","8157","502","6994","7018","8659","8981","P12854","1326","295","414","759","3626","5501","8105","9226","9236","3391","492","589","595","2305","2441","2491","2821","4464","11022","11194","11565","12547","17914","3496","5959","7073","8848","9112","9358","17946","18254","22435","1441","3051","3274","85","1776","s_n","2321","67484","10964","6134","7105","8180","9656","10322","11899","13744","19168","20543","22433","8640","8656","8669","9730","279","296","488","7917","23","303","4","658","136","422","47","1326","1114","11937","1759","51673","59300","62201","12425","12670","13684","P22643","P22646","2813","5072","6914","7328","7445","3195","307","469","3064","3078","5428","378","18681","21486","2444","2629","4791","5236","1397","1398","1399","338","s_n","1359","2838","4226","9105","10689","2188_B","3270","4716","4718","5319","6845","8652","9516","s_n","P20288","1538","2234","2266","2268","288","3075","361","2359","2697","6956","6962","7171","10642","10529","11249","11635","11993","3192","3221","3840","3852","3856","4664","4977","5076","5152","5332","7165","8910","9112","9274","9553","9989","398"],[-2.31537,-3.18524,-0.57,-0.57,0.3,6.42,6.42,6.42,4.975,4.975,4.975,4.975,4.97,-1,-1.03,-1.03,-16.38,-14.4478,7.95,4.97,5.3,6.57,3.05,2.96667,5.97,4.37,-1.85958,-1.85958,-4.92,-10.83,3.1,5.67,0.83,0.83,-8.05,-12.82,-12.82,-12.83,3.97,-0.42,-1.91556,-25.5,-4.92,5.38,-5.5058,-3.10194,-11.3508,-12.5633,-14.4781,-14.7506,-14.7506,-12.5633,-15.15,-14.7819,-14.7892,-17.511,-11.73,-14.4689,-12.57,-13.0258,-6.02263,6.13,-1.91556,-7.52,-13.83,-17.33,-17.33,-21.6144,5.4,4.88,6.63,6.375,6.36,6.6389,6.67,3.92,5.95,6.155,3.03,4.17,3.84462,3.84462,5.63,5.63,5.63,5.68,5.15,5.33,5.13,0.83,6.75,-2.41625,5.83333,4.21667,-25.33,5.33,-9.2544,-9.255,-3.06192,-3.03,-13,-7.63111,-7.6311,-2.30659,-4.48,-13.1169,-12.22,-12.13,-11.2,-11.2,-9.91333,-6.96667,-7.55,-7.25,-11.58,-10.18,-1.91556,-1.91556,-1.91556,-1.5,-8.92046,-1.91556,-0.016667,-1.91556,-12.08,0.136556,-1.88,-1.88,-1.88,-1.92,-1.92,-1.7,-1.75,-2.32664,-2.32664,-2.95487,-1.80155,-10.2,-10.2,-10.2,-3.08506,-1.85958,-10.2,-13.5667,-3.57956,-17.8919,-10.5933,-21.0992,-22.3708,-4.17,6.5833,6.5833,6.67,6.9167,5.38,-6.07,3.0875,3.1,3.0008,1.92182,-4.92,5.47,5.47,-3.10194,-19.3911,-19.1987,-3.0503,-0.42,-0.42,-14.0925,-15.7797,-3.99065,-18.38,-18.33,0.3,0.97,0.25,0.833333,-4.33,-3.76418,-0.58,-0.6,-0.6,-0.6,4.75,-2.62813,3.17,3.17,-2.48333,1.48244,-2.95487,5.02,-0.42,-0.42,-0.42,0.33,-0.880931,-0.942674,-0.867854,4.37,4.57,-0.7,-0.33,0.528028,0.245732,-2.50117,-3.05183,-7.58,-7.58,-7.58,-7.58,-7.58,-7.58,-25.42,-25.42,-25.42,3.58,4.55,6.38333,-2.39006,-8.76194,-8.76194,-3.76457,-3.76457,5.03,5.6,4.8,5.53333,-18.33,-13.619,-16.2783,1.92,9.07,3.67,3.63,9.07,9.07,9.07,6.25,3.83,3.83,3.83,3.05,3.05,3.13,3.13,3.08,2.58,2.67,1.92,5.7,7.03,6.55,6.55,6.97,10.08,10.08,10.08,6.32,6.18,6.73,7.75,5.6,5.85,5.85,6.65,6.65,6.6,6.78,8.492,3.63,9.43,9.23,9.22,7.167,1.08,0.83,0.83,-2.4826,-12.7386,-1.61232,-1.1646,-1.1646,-10.5373,-10.5373,-15.35,9.5917,-12.82,-10.7692,-2.58445,-7.5,-7.25861,-2.8275,-0.618124,-0.15184,-0.15184,-0.326324,-2.69966,-10.2,-1.43447,-1.981,-2.45452,-2.95487,-2.43693,-0.7794,-2.47,-9.70355,-6.5608,-9.05,-7.27893,-8.70772,-2.6962,-3.26291,-8.7967,-6.71396,-9.1233,3.17,3.17,3.17,-21.0111,-10.7799,5.1,1.93,1.93,1.93,1.93,1.93,-1.45583,3.642,-0.7,-0.0469494,-0.7,-17.5006,-14.6267,0.82,-3.30064,-8.35,0.7,9.75,5.58,5.58,7.625,5.58,6,-0.02,1.37325,-4.5,-10.78,-11.08,-11.08,-2.95487,-2.88333,-2.88,-2.88,-0.62,-0.62,-7.9636,-13.5544,-11.2683,-15.1056,-15.0103,-13.5383,-15.2933,-1.981,-3.71667,5.32,5.2,5.22,5.12,-1.44026,6.55,-16.4497,-2.32664,-2.39006,-2.88333,-19.58,-3.7661,-3.7661,-3.76457,-3.74805,-3.7661,7.01389,8,-15.1597,7.75,7.53,7.08,4,4,7.87,3.07,-0.52,-8.0128,6.28331,6.7,7.5,6.15,4.5,-14.7892,-14.7892,-13.5994,-17.8919,-17.8919,-15.2933,-18.0214,-15.3153,-7.115,-15.68,8.0856,-23.02,-23.03,8.483,8.525,-7.75,-2.44306,-9.16667,-5.36861,-1.1084,-1.00387,6.35,6.35,-2.52,-10.5361,-12.6564,-17.2222,-0.98,-0.8,-10.2825,2.58,-0.875396,-3.43961,4.25,-11.0249,-11.3783,-11.3783,-3.75105,-3.75105,-12.75,-17.57,-10.9333,-17.68,-17.47,-13.57,-2.43418,-2.43506,-17.38,4.93,4.26837,-1.32249,-0.42,-0.67,-0.33,-0.12,-14.4742,9.6,-1.91556,-2.04881,-1.5742,-12.53,-17.68,-17.68,-17.48,-19.1382,-0.58,0.8447,3.45,-3.57956,-8.97561,-7.6311,-7.6311,-0.52,6.18097,3.5,-2.41625,-3.3822,-0.579948,-15.4004,0.281953,6.55,5.78,3.67,4.05,2.95,5.8,3.58,3.18,3.55,3.3,5.62,5.62,5.78,2.27,-2.95487,-2.95487,4.65,4.65,4.65,4.15,2.9117,0.076046,-6.5022,-7.4614,4.34028,4.3925,-15.55,-14.48,-14.4997,-14.4997,-14.3867,-13.3289,-7.4008,-3.07864,-16.3721,-16.3721,-11,-7.4728,-7.63111,-3.75105,-3.94222,-3.95,-13.5886,-15.8189,7.5,7.02,7.08,7.08,3.0944,6.97,6.592,6.592,-14.5583,-14.7,-14.7,-16.4601,-15.0103,7.77,7.58,7.78,9,3.73333,1.93,7.17,1.93,1.85,1.95,7.68,-17.5,-15.32,-12.5,-18.0867,-14.1333,-15.86,-23.3503,-17.5194,-1.45583,-0.1306,0,-3.8,-3.92,-4.17,-3.33,-3.8,-16.3721,-15.1467,-15.1149,3.63,-2.41625,-2.69966,4.72902,4.68,4.68,-17.3411,-15.15,-13.6869,-11.2939,-6.48,-13.9267,5.37,3.98,-12.83,8,-12.9064,-7.8389,-13.9,1.25,-3.37,-17.77,-15.45,0.83,-2.58445,-3.34502,-2.58445,1.94895,-2.98757,-2.98757,-18.33,-14.8031,-14.7171,-16.4759,-14.5661,5.8,-15.2189,-15.2189,2.18,2.05,4.8,-4.43644,-10.37,-14.4517,7.45,8.108,5.5578,3.9133,-3.1019,-3.1019,-3.08825,-0.45,-3.75626,-1.13,-1.07,-1.07,-0.03,-0.116667,-3.05183,-3.05183,-3.05183,-3.05183,-2.95487,-2.95487,-3.05183,-2.94201,-3.10194,-1.85958,-1.2,-3.4919,-3.4919,-3.4919,-3.4919,-2.72,-3.4919,7,7,10.18,10.18,10.18,-7.58,-14.7819,-15.2647,-16.8753,-16.8672,0.83,0.83,-12.3,-12.3,-12.3,-15.47,-9,-9.08333,-8.82,-1.83,-14.4231,-10.6875,-14.68,-13.5972,-14.67,-17.33,6.23],[-59.6855,-60.1302,-72.13,-72.13,-66.7,-67.42,-67.42,-67.42,-67.667,-67.667,-67.667,-67.667,-65.33,-76.18,-76.18,-76.18,-39.13,-67.5267,-64.37,-63.4,-63.98,-66.38,-67.48,-64.6833,-67.37,-67.75,-60.086,-60.086,-73.67,-75,-77.22,-67.67,-66.08,-66.13,-34.92,-69.72,-69.72,-69.28,-77,-72.32,-59.4734,-56.9167,-73.75,-52.92,-45.2431,-60.025,-37.4481,-41.3897,-39.0331,-61.1436,-61.1436,-41.3897,-39.08,-39.0692,-39.0492,-39.1935,-57.57,-59.8517,-70.1,-68.8431,-50.2909,-71.75,-59.4734,-63.03,-47.25,-47.33,-47.33,-55.1681,-52.9,-52.25,-63.48,-63.5583,-63.7575,-63.1194,-63.1583,-67.67,-64.43,-65.895,-65.2,-59.05,-55.6133,-55.6133,-66.1,-66.1,-66.1,-66.15,-64.57,-64.75,-64.93,-66.17,-66.62,-59.7458,-63.8,-51.85,-57.47,-53,-36.4306,-36.4311,-60.1077,-60.58,-60,-72.67,-72.6697,-58.727,-58.55,-60.5417,-60.98,-60.61,-62.03,-60,-63.0408,-62.1333,-60.6667,-60,-50.75,-50.85,-59.4734,-59.4734,-59.4734,-59.5,-63.4182,-59.4734,-57.1333,-59.4734,-63.58,-60.5636,-54.65,-54.65,-54.65,-54.25,-54.25,-55.83,-55.72,-60.0917,-60.0917,-59.9282,-60.1458,-59.35,-59.35,-59.35,-59.9302,-60.086,-59.35,-62.05,-64.775,-39.3717,-36.9403,-41.0467,-41.7867,-73.37,-64.75,-64.75,-65.07,-64.8333,-53,-50.05,-56.4569,-56.4833,-56.4508,-67.0579,-73.67,-53.6,-53.6,-60.025,-40.0719,-39.9719,-77.9436,-77,-77,-49.2789,-47.9294,-49.6736,-59.5,-59.47,-66.7,-67.17,-66.85,-66.8833,-47.75,-49.5592,-72.4,-72.4,-72.4,-72.4,-59.02,-60.0401,-65.55,-65.55,-54.95,-51.609,-59.9282,-53.02,-72.33,-72.33,-72.5,-67.3,-52.6008,-52.4369,-52.5397,-67.1,-67.3,-77.5,-77.08,-63.4907,-63.2368,-66.1015,-60.0988,-35.5,-35.5,-35.5,-35.5,-35.5,-35.5,-57.12,-57.12,-57.12,-66.55,-67.62,-63.5667,-59.9866,-63.9039,-63.9039,-49.6736,-49.6736,-67.77,-67.508,-67.47,-67.3333,-59.75,-38.944,-39.0244,-67.03,-69.82,-67.37,-66.87,-69.82,-69.82,-69.82,-63.1,-67.78,-67.78,-67.78,-65.42,-65.42,-65.45,-65.45,-65.58,-67.12,-66.83,-67.07,-53.85,-67.08,-67.28,-67.28,-67.82,-66.02,-66.02,-66.02,-67.83,-68.78,-67.33,-69.28,-67.62,-67.4,-67.42,-67.28,-67.28,-67.27,-69.67,-62.325,-66.87,-72.48,-72.53,-72.68,-71.95,-66.42,-66.17,-66.08,-54.9423,-60.0511,-49.6395,-55.7591,-55.7591,-65.5843,-65.5843,-39,-72.8986,-69.28,-37.3369,-60.0316,-73.73,-64.7992,-60.5089,-65.2484,-67.0059,-67.0059,-66.83,-60.3529,-59.35,-46.4695,-60.0292,-60.0259,-59.9282,-60.0275,-47.1811,-54.97,-65.3748,-47.4508,-68.67,-64.7694,-63.8138,-59.6918,-52.366,-54.9717,-55.482,-62.9,-65.55,-65.55,-65.55,-40.8339,-65.3465,-56.52,-67.05,-67.05,-67.05,-67.05,-67.05,-48.5044,-56.533,-63.3667,-60.6863,-63.3667,-63.6489,-61.1989,-63.32,-64.7809,-50,-63.37,-70.25,-66.17,-66.17,-71.78,-67.25,-65,-76.18,-70.9086,-57.733,-65.97,-65.83,-65.83,-59.9282,-59.97,-59.97,-59.97,-72.4,-72.4,-73.8997,-39.0353,-37.4386,-39.0083,-61.1283,-39.0983,-39.0753,-60.0292,-57.2667,-67.97,-67.83,-69.08,-69.15,-48.4173,-66.833,-39.0644,-60.0917,-59.9866,-59.97,-39.8,-49.6725,-49.6725,-49.6736,-73.2472,-49.6725,-64.9333,-64.75,-39.0391,-60.25,-65.3,-64.97,-67.75,-67.75,-65.68,-67.1,-76.53,-34.9503,-60.4192,-64.23,-65.27,-66.38,-65.8,-39.0492,-39.0492,-39.1067,-39.3717,-39.3717,-39.0753,-39.5094,-39.0056,-34.8631,-52.33,-63.4753,-57.07,-57.05,-70.558,-70.617,-62.5333,-54.7083,-63.1167,-49.1178,-57.2819,-57.1288,-64.98,-64.98,-55,-37.0633,-69.4192,-46.8744,-76.2,-76.5,-59.6056,-66.3,-48.5123,-59.9952,-53.25,-58.3804,-58.7408,-58.7408,-49.5473,-49.5473,-60.17,-64.2417,-65.15,-63.42,-63.67,-60.93,-59.9048,-59.811,-63.6,-52.3,-54.7435,-47.6754,-64.42,-66.75,-66.92,-67.08,-48.4594,-72.9167,-59.4734,-59.9132,-48.5011,-68.67,-63.42,-63.42,-63.65,-39.9612,-64.67,-72.6734,-66.75,-64.775,-58.5977,-72.6697,-72.6697,-76.53,-67.0797,-65.25,-59.7458,-57.7161,-60.6187,-68.1834,-68.6706,-66.833,-67.5,-66.83,-66.82,-67.48,-67.33,-67.18,-65.62,-67.2,-66.55,-67.6,-67.6,-67.5,-73.73,-59.9282,-59.9282,-59.8,-59.8,-59.8,-59.03,-67.4486,-67.3019,-34.9769,-34.9692,-67.7367,-67.7408,-38.97,-39.1,-39.115,-39.115,-39.0792,-39.0903,-73.0189,-60.0064,-39.1816,-39.1816,-65.75,-72.8214,-72.67,-49.5473,-73.4083,-73.42,-38.9197,-48.9886,-75.33,-74.75,-74.93,-74.93,-56.4847,-67.6103,-67.275,-67.275,-60.7614,-61.15,-61.15,-61.9892,-61.1283,-63,-63.12,-71.77,-69.9,-65.7333,-67.07,-62.92,-67.05,-67.05,-67.13,-71.48,-39.22,-39.02,-41.37,-39.5506,-39,-38.88,-47.68,-39.19,-48.5044,-67.0892,-76.2,-73.42,-73.58,-73.5,-72.92,-73.42,-39.1816,-39.2504,-39.1202,-53.2,-59.7458,-60.3529,-56.2024,-56.17,-56.17,-39.2206,-39.08,-39.4792,-38.19,-76.35,-49.2969,-64.93,-67.63,-69.33,-64.75,-51.875,-35.0028,-60.82,-70.85,-64.87,-48.47,-67.83,-66.17,-60.0316,-64.8239,-60.0316,-67.0004,-58.8775,-58.8775,-59.67,-60.393,-61.1628,-60.9818,-60.7728,-60.73,-39.2481,-39.2481,-59.18,-59.15,-60.03,-47.5385,-58.78,-48.5366,-63.22,-63.492,-64.3136,-67.5519,-60.025,-60.025,-59.9867,-64,-73.2825,-77.5,-77.62,-77.6,-76.22,-67.05,-60.0988,-60.0988,-60.0988,-60.0988,-59.9282,-59.9282,-60.0988,-59.2828,-60.025,-60.086,-46.1167,-45.2508,-45.2508,-45.2508,-45.2508,-46.43,-45.2508,-66.75,-64.83,-68.125,-68.125,-68.12,-57.52,-39.0692,-40.5747,-39.1442,-39.415,-66.13,-66.12,-55.53,-55.53,-55.53,-59.03,-63.25,-63.2167,-63.4,-59.53,-39.0617,-37.3889,-39.15,-39.7222,-39.1,-39.3,-64.2],["D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly","D. C. Daly"],["aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","heptaphyllum","aracouchini","heptaphyllum","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","heptaphyllum","heptaphyllum","aracouchini","aracouchini","aracouchini","aracouchini","aracouchini","heptaphyllum","heptaphyllum","aracouchini","heptaphyllum","heptaphyllum","aracouchini"],["A_A_de_Oliveira_278","A_B_Anderson_214","A_C_Londoño_1486","A_C_Londoño_493","A_C_Weber_s_n","A_Castillo_1609","A_Castillo_2297","A_Castillo_2372","A_Castillo_4611","A_Castillo_4650","A_Castillo_5004","A_Castillo_5005","A_Chaviel_144","A_Dik_1579","A_Dik_1606","A_Dik_1616","A_Euponino_186","A_F_Fuentes_5532","A_Fernandez_4251","A_Fernandez_4335","A_Fernandez_4897","A_Fernandez_5796","A_Fernandez_6622","A_Fernandez_6921","A_Gröger_338","A_Gröger_963","A_H_Gentry_12970","A_H_Gentry_12974","A_H_Gentry_21355","A_H_Gentry_37260","A_H_Gentry_40619","A_H_Gentry_46353","A_H_Gentry_46911","A_H_Gentry_46957","A_H_Gentry_50184","A_H_Gentry_51087","A_H_Gentry_51350","A_H_Gentry_57804","A_H_Gentry_62798","A_H_Gentry_65167","A_Knob_738","A_Krapovickas_45701","A_L_Bernardi_3_81","A_Le_Goff_107","A_Lisboa_s_n_","A_Loureiro_s_n","A_M_Amorim_1499","A_M_Amorim_2165","A_M_Amorim_361","A_M_Carrión_283","A_M_Carrión_342","A_M_V_de_Carvalho_1010","A_M_V_de_Carvalho_4554","A_M_V_de_Carvalho_4668","A_M_V_de_Carvalho_855","A_M_V_de_Carvalho_942","A_Nave_1718","A_Nave_2162","A_P_Maceda_685","A_Poma_149_A","A_S_Silva_3","A_Sumabila_1","A_Webber_1086","B_A_Krukoff_6857","B_A_S_Pereira_2874","B_A_S_Pereira_3249","B_A_S_Pereira_3256","B_D_Sucre_10476","B_G_Bordenave_140","B_G_Bordenave_287","B_G_Stergios_D_10042","B_G_Stergios_D_10438","B_G_Stergios_D_10752","B_G_Stergios_D_10955","B_G_Stergios_D_11010","B_G_Stergios_D_11565","B_G_Stergios_D_13017","B_G_Stergios_D_13794","B_G_Stergios_D_14561","B_Hoffman_4551","B_Hoffman_6488","B_Hoffman_6489","B_K_Holst_3047","B_K_Holst_3051","B_K_Holst_3061","B_K_Holst_3318","B_M_Boom_10444","B_M_Boom_10475","B_M_Boom_10599","B_M_Boom_5134","B_M_Boom_6042","B_M_Boom_8592","B_Maguire_33140","B_Oldeman_B_2632","B_R_Pérez_Marisevich_1263","B_Riéra_1232","B_S_Amorim_1394","B_S_Amorim_1440","B_W_Nelson_1360","B_W_Nelson_1447","B_W_Nelson_313","C_A_Cid_Ferreira_10147B","C_A_Cid_Ferreira_10694","C_A_Cid_Ferreira_227","C_A_Cid_Ferreira_4035","C_A_Cid_Ferreira_4301","C_A_Cid_Ferreira_4421","C_A_Cid_Ferreira_4497","C_A_Cid_Ferreira_4605","C_A_Cid_Ferreira_4671","C_A_Cid_Ferreira_5063","C_A_Cid_Ferreira_5488","C_A_Cid_Ferreira_5697","C_A_Cid_Ferreira_5880","C_A_Cid_Ferreira_6367","C_A_Cid_Ferreira_6442","C_A_Cid_Ferreira_6599","C_A_Cid_Ferreira_6659","C_A_Cid_Ferreira_6707","C_A_Cid_Ferreira_7015","C_A_Cid_Ferreira_7410","C_A_Cid_Ferreira_7573","C_A_Cid_Ferreira_8059","C_A_Cid_Ferreira_8198","C_A_Cid_Ferreira_8674","C_A_Cid_Ferreira_9137","C_A_Cid_Ferreira_9404","C_A_Cid_Ferreira_9407","C_A_Cid_Ferreira_9421","C_A_Cid_Ferreira_9461","C_A_Cid_Ferreira_9467","C_A_Cid_Ferreira_9813","C_A_Cid_Ferreira_9832","C_A_Mackenzie_s_n_","C_A_Mackenzie_s_n","C_A_Sothers_142","C_C_Berg_P18159","C_C_Berg_P18448","C_C_Berg_P18454","C_C_Berg_P18490","C_C_Berg_P18794","C_C_Berg_P19552","C_C_Berg_P19898","C_Chumacero_793A","C_E_Calderón_2949","C_Farney_2634","C_Farney_298195","C_Farney_3369","C_Farney_4496","C_Grández_1897","C_Knab-Vispo_546","C_Knab-Vispo_618","C_Knab-Vispo_67","C_Knab-Vispo_678","C_P_G_Feuillet_4042","C_R_Sperling_6286","C_S_Rosário_1780","C_S_Rosário_1902","C_S_Rosário_2038","Collector_unspecified_1535","Collector_unspecified_17","Collector_unspecified_1838","Collector_unspecified_1950","Collector_unspecified_s_n","D_A_Folli_2087","D_A_Folli_626","D_A_Neill_14012","D_A_Neill_7255","D_A_Neill_7316","D_Alvarenga_1232","D_Alvarenga_931","D_C_Daly_1080","D_C_Daly_2190","D_C_Daly_2231","D_C_Daly_5413","D_C_Daly_5483","D_C_Daly_5495","D_C_Daly_5540","D_C_Daly_768","D_C_Daly_980","D_Cárdenas_4009","D_Cárdenas_4127","D_Cárdenas_4130","D_Cárdenas_4132","D_Clarke_464","D_Coêlho_s_n","D_Coomes_1","D_Coomes_69","D_D_Ackerly_151","D_F_Austin_7003","D_F_Coêlho_s_n","D_Loubry_1543","D_Restrepo_166","D_Restrepo_25","D_Restrepo_251","D_W_Stevenson_930","E_de_Oliveira_3531","E_de_Oliveira_3577","E_de_Oliveira_3893","E_Foldats_9142","E_Foldats_9455","E_Freire_177","E_Gudiño_67","E_L_Sette_Silva_203","E_L_Sette_Silva_225","E_Lleras_P17428","E_Lleras_P17568","E_M_N_Ferraz_327","E_M_N_Ferraz_480","E_M_N_Ferraz_506","E_M_N_Ferraz_509","E_M_N_Ferraz_525","E_M_N_Ferraz_533","E_M_Zardini_5487","E_M_Zardini_5537","E_M_Zardini_9987","E_Marin_570","E_Melgueiro_108","E_P_Killip_37290","E_Palheta_s_n","F_Dionizia_52","F_Dionizia_94","F_E_L_de_Miranda_395","F_E_L_de_Miranda_408","F_J_Breteler_4803","F_J_Guánchez_1531","F_J_Guánchez_3289","F_J_Guánchez_415","F_Mamani_M_1189","F_S_Juchum_29","F_Souza_Santos_178","G_A_Aymard_Corredor_12707","G_A_Aymard_Corredor_152","G_A_Aymard_Corredor_16879","G_A_Aymard_Corredor_17266","G_A_Aymard_Corredor_1957","G_A_Aymard_Corredor_1958","G_A_Aymard_Corredor_5599","G_A_Aymard_Corredor_6033","G_A_Aymard_Corredor_6365","G_A_Aymard_Corredor_6398","G_A_Aymard_Corredor_6520","G_A_Aymard_Corredor_7933","G_A_Aymard_Corredor_7950","G_A_Aymard_Corredor_8060","G_A_Aymard_Corredor_8151","G_A_Aymard_Corredor_8326","G_A_Aymard_Corredor_8981","G_A_Aymard_Corredor_9099","G_A_Aymard_Corredor_9819","G_Cremers_12467","G_Davidse_12241_A","G_Davidse_12322","G_Davidse_12375","G_Davidse_12961","G_Davidse_13574","G_Davidse_13623","G_Davidse_13717","G_Davidse_13832","G_Davidse_14269","G_Davidse_14609","G_Davidse_14822","G_Davidse_15003","G_Davidse_15325","G_Davidse_15342","G_Davidse_15488","G_Davidse_15494","G_Davidse_15614","G_Davidse_16019","G_Davidse_16268","G_Davidse_17266","G_Davidse_18310","G_Davidse_18576","G_Davidse_18748","G_Davidse_21858","G_Davidse_26820","G_Davidse_27010","G_Davidse_27135","G_Dos_Santos_682","G_F_Arbocz_4473","G_L_Sobel_4590","G_Martinelli_12279","G_Martinelli_12295","G_Meyer_144","G_Meyer_2","G_P_Lewis_739","G_S_Bunting_11022","G_S_Hartshorn_2419","G_Sousa_384","G_T_Prance_11349","G_T_Prance_12425a","G_T_Prance_13973","G_T_Prance_15036","G_T_Prance_15451","G_T_Prance_15675","G_T_Prance_15688","G_T_Prance_16156","G_T_Prance_18038","G_T_Prance_18356","G_T_Prance_2039","G_T_Prance_21637","G_T_Prance_21649","G_T_Prance_2190","G_T_Prance_23053","G_T_Prance_24234","G_T_Prance_30497","G_T_Prance_5792","G_T_Prance_58602","G_T_Prance_7556","G_T_Prance_8214","G_T_Prance_8295","G_T_Prance_9068","G_T_Prance_P24722","G_T_Prance_P25201","G_T_Prance_P25496","G_Vieira_320","G_Zimmermann_161","G_Zimmermann_198","G_Zimmermann_57","H_C_de_Lima_2001","H_H_Rusby_1335","H_Jiménez_Saa_1685","H_L_Clark_6750","H_L_Clark_6962","H_L_Clark_7243","H_L_Clark_7285","H_L_Clark_7368","H_S_Irwin_5017","H_S_Irwin_54576","I_Cordeiro_101","I_Cordeiro_21","I_Cordeiro_93","I_G_Vargas_Caballero_5294","I_G_Vargas_Caballero_6202","I_L_do_Amaral_1686","I_L_do_Amaral_80","J_A_Ratter_R6879","J_A_Silva_201","J_A_Steyermark_111635","J_A_Steyermark_113963","J_A_Steyermark_117900","J_A_Steyermark_119431","J_A_Steyermark_122130","J_A_Steyermark_95756","J_Brandbyge_33968","J_C_Betancur_9969","J_C_Lindeman_158","J_C_Solomon_17176","J_C_Solomon_6174","J_C_Solomon_6178","J_E_de_Paula_406","J_E_L_S_Ribeiro_1403","J_E_L_S_Ribeiro_906","J_E_L_S_Ribeiro_971","J_F_Duivenvoorden_2736","J_F_Duivenvoorden_603","J_G_Graham_2735","J_G_Jardim_2780","J_G_Jardim_474","J_G_Jardim_573","J_Guillen_126","J_L_Hage_415","J_L_Paixão_391","J_L_Zarucchi_2551","J_L_Zarucchi_3089","J_L_Zarucchi_3458","J_L_Zarucchi_3522","J_L_Zarucchi_3775","J_L_Zarucchi_3833","J_M_Pires_10737","J_O_Ramírez_27","J_P_Souza_2411","J_R_M_Nascimento_s_n_","J_R_M_Nascimento_s_n","J_R_Nascimento_732","J_R_Pirani_2382","J_Ramos_1147","J_Ramos_626","J_Ramos_883","J_Revilla_4352","J_Revilla_8502","J_Rosales_2038","J_Rosales_91","J_S_Blanchet_1661","J_S_de_la_Cruz_4044","J_Velazco_1655","J_Velazco_228","J_Velazco_736","J_Velazco_750","J_Velazco_82","J_Velazco_848","J_Zuleta_244","K_Almeida_132","K_M_Redden_5733","L_A_Delgado_1073","L_A_Delgado_1269","L_A_Delgado_270","L_A_Delgado_778","L_A_Mattos_Silva_1411","L_A_Mattos_Silva_1705","L_A_Mattos_Silva_1951","L_A_Mattos_Silva_2004","L_A_Mattos_Silva_2005","L_A_Mattos_Silva_2949","L_A_Mattos_Silva_4163","L_A_Mattos_Silva_4606","L_A_Pereira_126","L_C_Bernacci_2608","L_Chacon_501","L_F_Pérez_de_Molas_1572","L_F_Pérez_de_Molas_1602","L_J_Dorr_4696","L_J_Dorr_4739","L_O_A_Teixeira_1210","L_O_A_Teixeira_13","L_O_A_Teixeira_835","L_R_Marinho_174_B","L_S_Coêlho_140","L_S_Coêlho_217","L_Salas_TT-125","L_Salas_TT-77","L_V_Ferreira_52","L_A_Gomes_367","M_Aguilar_1163","M_Aparecida_da_Silva_2228","M_Aulestia_3189","M_Aulestia_633","M_C_de_Assis_498","M_Colella_1720","M_de_N_do_C_Bastos_67","M_F_da_Silva_563","M_Fleury_383","M_G_da_Silva_3289","M_G_da_Silva_4312","M_G_da_Silva_4673","M_G_da_Silva_5503","M_G_da_Silva_5806","M_G_Vieira_1024","M_H_Nee_33773","M_H_Nee_34821","M_H_Nee_35830","M_H_Nee_40229","M_H_Nee_41406","M_H_Nee_42628","M_H_Nee_42882","M_H_Nee_49728","M_Hoff_5381","M_J_Jansen-Jacobs_6875","M_Kuhlmann_311","M_L_Alencar_192_VPI","M_L_Alencar_463_VPI","M_L_Alencar_614","M_L_Alencar_703","M_L_Fonseca_1467","M_Lizarralde_ML288","M_Lopes_14","M_Lopes_148","M_M_Pignal_3062","M_N_Alexiades_1251","M_Saldías_Paz_1275","M_Saldías_Paz_13","M_Saldías_Paz_4807","M_Sobral_4736","M_T_Madison_6219","M_Velayos_Rodriguez_6477","M_Yanez_449","N_A_Rosa_1598","N_A_Rosa_2062","N_A_Rosa_648","N_A_Rosa_679","N_C_A_Pitman_1596_A","N_Cuello_A_629","N_Dezzeo_384","N_M_Lepsch_da_Cunha_249","N_T_da_Silva_4498","N_T_da_Silva_4579","O_Buchtien_2071","O_C_Nascimento_62","O_Huber_12058","O_Huber_1431","O_Huber_1671","O_Huber_1998","O_Huber_3419","O_Huber_4741","O_Huber_4908","O_Huber_5014","O_Huber_5159","O_Huber_6406","O_Huber_717","O_Huber_773","O_Huber_960","O_Marulanda_1835","O_P_Monteiro_290","P_A_C_L_Assunção_22","P_A_Mutchnick_1380","P_A_Mutchnick_1546","P_A_Mutchnick_1618","P_A_Mutchnick_887","P_Acevedo-Rodríguez_10446","P_B_Cavalcante_650","P_da_C_Gadelha_Neto_3316","P_da_C_Gadelha_Neto_3409","P_E_Berry_5124","P_E_Berry_5209","P_Fiaschi_1330","P_Fiaschi_1728","P_Fiaschi_2049","P_Fiaschi_2058","P_Fiaschi_2221","P_Fiaschi_2521","P_G_Delprete_8157","P_J_M_Maas_502","P_J_M_Maas_6994","P_J_M_Maas_7018","P_J_M_Maas_8659","P_J_M_Maas_8981","P_J_M_Maas_P12854","P_L_B_Lisboa_1326","P_V_A_Fine_295","P_V_A_Fine_414","R_A_X_Borges_759","R_C_de_Mendonça_3626","R_Callejas_Posada_5501","R_Callejas_Posada_8105","R_Callejas_Posada_9226","R_Callejas_Posada_9236","R_Evans_3391","R_Gómez_492","R_Gómez_589","R_Gómez_595","R_Guillén_2305","R_Guillén_2441","R_Guillén_2491","R_Guillén_2821","R_Guillén_4464","R_L_Liesner_11022","R_L_Liesner_11194","R_L_Liesner_11565","R_L_Liesner_12547","R_L_Liesner_17914","R_L_Liesner_3496","R_L_Liesner_5959","R_L_Liesner_7073","R_L_Liesner_8848","R_L_Liesner_9112","R_L_Liesner_9358","R_M_Harley_17946","R_M_Harley_18254","R_M_Harley_22435","R_P_Belém_1441","R_P_Belém_3051","R_P_Belém_3274","R_R_Rodrigues_85","R_S_Pinheiro_1776","R_S_Rodrigues_s_n","R_Spruce_2321","R_Valencia_67484","R_Vásquez_Martínez_10964","R_Vásquez_Martínez_6134","R_Vásquez_Martínez_7105","R_Vásquez_Martínez_8180","R_Vásquez_Martínez_9656","S_A_Mori_10322","S_A_Mori_11899","S_A_Mori_13744","S_A_Mori_19168","S_A_Mori_20543","S_A_Mori_22433","S_A_Mori_8640","S_A_Mori_8656","S_A_Mori_8669","S_A_Mori_9730","S_C_de_Sant_Ana_279","S_C_de_Sant_Ana_296","S_C_de_Sant_Ana_488","S_D_Knapp_7917","S_de_Souza_Silva_23","S_Elcoro_303","S_Elcoro_4","S_F_Smith_658","S_Flores_136","S_G_da_Fonsêca_422","S_G_Freire_47","S_Panfil_1326","S_R_Madriñán_1114","S_T_McDaniel_11937","T_B_Cavalcanti_1759","T_B_Croat_51673","T_B_Croat_59300","T_B_Croat_62201","T_C_Plowman_12425","T_C_Plowman_12670","T_C_Plowman_13684","T_D_Pennington_P22643","T_D_Pennington_P22646","T_J_Killeen_2813","T_J_Killeen_5072","T_J_Killeen_6914","T_J_Killeen_7328","T_J_Killeen_7445","T_McDowell_3195","T_S_dos_Santos_307","T_S_dos_Santos_469","T_W_Henkel_3064","T_W_Henkel_3078","T_W_Henkel_5428","U_N_Maciel_378","V_C_Souza_18681","V_C_Souza_21486","W_A_Diaz_2444","W_A_Diaz_2629","W_A_Diaz_4791","W_A_Diaz_5236","W_A_Ducke_1397","W_A_Ducke_1398","W_A_Ducke_1399","W_A_Ducke_338","W_A_Ducke_s_n","W_A_Palacios_1359","W_A_Palacios_2838","W_A_Palacios_4226","W_A_Palacios_9105","W_A_Rodrigues_10689","W_A_Rodrigues_2188_B","W_A_Rodrigues_3270","W_A_Rodrigues_4716","W_A_Rodrigues_4718","W_A_Rodrigues_5319","W_A_Rodrigues_6845","W_A_Rodrigues_8652","W_A_Rodrigues_9516","W_A_Rodrigues_s_n","W_C_Steward_P20288","W_L_Balée_1538","W_L_Balée_2234","W_L_Balée_2266","W_L_Balée_2268","W_L_Balée_288","W_L_Balée_3075","W_L_Balée_361","W_Meier_2359","W_Meier_2697","W_Meier_6956","W_Meier_6962","W_Meier_7171","W_R_Anderson_10642","W_W_Thomas_10529","W_W_Thomas_11249","W_W_Thomas_11635","W_W_Thomas_11993","W_W_Thomas_3192","W_W_Thomas_3221","W_W_Thomas_3840","W_W_Thomas_3852","W_W_Thomas_3856","W_W_Thomas_4664","W_W_Thomas_4977","W_W_Thomas_5076","W_W_Thomas_5152","W_W_Thomas_5332","W_W_Thomas_7165","W_W_Thomas_8910","W_W_Thomas_9112","W_W_Thomas_9274","W_W_Thomas_9553","W_W_Thomas_9989","Y_Fernandez_398"],["Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini","Protium heptaphyllum","Protium heptaphyllum","Protium aracouchini"]],"container":"<table class=\"display fill-container\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>recordedBy<\/th>\n      <th>recordNumber<\/th>\n      <th>decimalLatitude<\/th>\n      <th>decimalLongitude<\/th>\n      <th>identifiedBy<\/th>\n      <th>specificEpithet<\/th>\n      <th>ID<\/th>\n      <th>Species<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+
+
+
+---
+
+## Checagem e limpeza dos dados
+
+* Existência de valores vazios; em caso positivo, devemos eliminá-los;
+
+--
+
+* Confiabilidade dos valores de latitude e longitude
+
+--
+
+* Valores duplicados?
+
+???
+
+Há valores vazios?  
+Dados de Latitude e latitude, às vezes, por diversos fatores, há troca de sinais (negativos e positivos) ocasionando equívocos quanto à ocorrência exata da amostra. Se for percebido algo assim, é bom checar os dados e buscar corrigí-los.
+Há valores duplicados?
+
+---
+
+## Cria variáveis para plotar o mapa
+
+--
+
+### Nomes de espécies
+
+
+```r
+spp &lt;- unique(protium$Species)
+spp
+```
+
+```
+## [1] "Protium aracouchini"  "Protium heptaphyllum"
+```
+
+---
+
+### Variáveis - Vetor de cores para utilizar no mapa
+
+Para cada espécie, uma cor!
+
+
+```r
+ifelse(protium$Species == spp[1], 'red','black')
+```
+
+```
+##   [1] "red"   "black" "red"   "red"   "red"   "black" "black" "black" "black" "black"
+##  [11] "black" "black" "black" "red"   "red"   "red"   "red"   "black" "black" "red"  
+##  [21] "red"   "red"   "black" "red"   "black" "red"   "black" "black" "red"   "red"  
+##  [31] "red"   "black" "red"   "red"   "black" "red"   "red"   "red"   "red"   "black"
+##  [41] "black" "black" "red"   "black" "black" "red"   "black" "black" "red"   "black"
+##  [51] "black" "black" "red"   "red"   "black" "black" "black" "black" "red"   "red"  
+##  [61] "black" "black" "black" "red"   "black" "black" "black" "black" "black" "black"
+##  [71] "black" "black" "black" "red"   "black" "red"   "black" "red"   "red"   "black"
+##  [81] "black" "black" "red"   "red"   "red"   "black" "red"   "red"   "red"   "red"  
+##  [91] "black" "red"   "black" "red"   "black" "black" "black" "black" "black" "black"
+## [101] "red"   "red"   "black" "black" "black" "red"   "black" "red"   "red"   "red"  
+## [111] "red"   "red"   "red"   "red"   "black" "black" "red"   "red"   "red"   "black"
+## [121] "red"   "red"   "red"   "black" "red"   "black" "black" "black" "black" "black"
+## [131] "black" "black" "black" "red"   "black" "black" "black" "red"   "black" "red"  
+## [141] "red"   "red"   "red"   "black" "red"   "black" "black" "black" "black" "red"  
+## [151] "black" "red"   "black" "black" "black" "red"   "black" "black" "black" "red"  
+## [161] "red"   "red"   "red"   "black" "black" "black" "red"   "red"   "red"   "black"
+## [171] "black" "black" "black" "black" "red"   "red"   "red"   "red"   "red"   "black"
+## [181] "black" "black" "black" "black" "black" "black" "red"   "red"   "black" "black"
+## [191] "red"   "black" "black" "black" "black" "red"   "red"   "black" "black" "red"  
+## [201] "red"   "red"   "red"   "black" "black" "red"   "black" "red"   "red"   "red"  
+## [211] "red"   "red"   "red"   "black" "black" "black" "red"   "red"   "black" "red"  
+## [221] "red"   "red"   "black" "black" "red"   "black" "black" "red"   "black" "black"
+## [231] "black" "black" "black" "black" "black" "black" "black" "black" "red"   "red"  
+## [241] "red"   "black" "black" "red"   "black" "black" "black" "black" "red"   "red"  
+## [251] "black" "black" "black" "black" "black" "black" "black" "black" "black" "black"
+## [261] "black" "black" "black" "black" "black" "black" "black" "black" "black" "black"
+## [271] "black" "black" "black" "black" "black" "red"   "red"   "red"   "black" "red"  
+## [281] "black" "black" "black" "red"   "red"   "black" "black" "red"   "black" "black"
+## [291] "red"   "red"   "red"   "black" "black" "red"   "black" "red"   "red"   "black"
+## [301] "red"   "black" "red"   "black" "black" "black" "red"   "black" "red"   "red"  
+## [311] "red"   "red"   "red"   "black" "red"   "red"   "red"   "black" "red"   "black"
+## [321] "black" "red"   "red"   "black" "red"   "red"   "red"   "red"   "red"   "black"
+## [331] "black" "black" "black" "black" "black" "red"   "black" "black" "black" "black"
+## [341] "black" "red"   "red"   "black" "red"   "black" "red"   "red"   "red"   "red"  
+## [351] "red"   "red"   "red"   "red"   "black" "black" "red"   "black" "black" "red"  
+## [361] "black" "black" "red"   "black" "red"   "black" "black" "black" "black" "red"  
+## [371] "black" "red"   "black" "red"   "red"   "black" "black" "black" "black" "black"
+## [381] "black" "black" "black" "black" "black" "black" "black" "red"   "red"   "black"
+## [391] "red"   "red"   "black" "red"   "red"   "black" "black" "red"   "red"   "black"
+## [401] "black" "black" "black" "black" "black" "red"   "black" "black" "black" "black"
+## [411] "black" "black" "black" "red"   "black" "red"   "black" "black" "red"   "red"  
+## [421] "black" "black" "black" "red"   "black" "red"   "red"   "red"   "red"   "black"
+## [431] "red"   "black" "black" "red"   "red"   "black" "black" "red"   "black" "red"  
+## [441] "black" "black" "black" "red"   "red"   "black" "black" "red"   "red"   "black"
+## [451] "black" "red"   "red"   "black" "black" "black" "black" "red"   "red"   "black"
+## [461] "black" "black" "black" "black" "black" "black" "black" "red"   "black" "red"  
+## [471] "red"   "red"   "red"   "red"   "black" "black" "black" "black" "black" "black"
+## [481] "black" "black" "black" "black" "black" "black" "black" "black" "black" "black"
+## [491] "black" "red"   "red"   "red"   "black" "black" "black" "black" "black" "red"  
+## [501] "black" "red"   "black" "black" "black" "red"   "red"   "red"   "red"   "red"  
+## [511] "black" "black" "black" "red"   "red"   "black" "red"   "black" "black" "black"
+## [521] "red"   "black" "red"   "red"   "red"   "red"   "black" "black" "black" "black"
+## [531] "black" "black" "black" "black" "black" "red"   "black" "black" "black" "red"  
+## [541] "red"   "black" "black" "red"   "black" "black" "black" "black" "black" "red"  
+## [551] "black" "black" "black" "black" "red"   "red"   "red"   "red"   "red"   "black"
+## [561] "red"   "black" "red"   "red"   "red"   "red"   "red"   "black" "red"   "black"
+## [571] "black" "red"   "red"   "red"   "black" "red"   "black" "red"   "black" "red"  
+## [581] "black" "black" "red"   "black" "black" "red"   "black" "black" "red"   "black"
+## [591] "red"   "black" "red"   "red"   "red"   "black" "black" "black" "black" "black"
+## [601] "black" "red"   "red"   "black" "black" "black" "red"   "red"   "black" "black"
+## [611] "black" "black" "black" "black" "black" "red"   "black" "red"   "red"   "red"  
+## [621] "red"   "red"   "red"   "black" "black" "black" "black" "red"   "red"   "black"
+## [631] "red"   "black" "red"   "red"   "black" "black" "black" "red"   "black" "red"  
+## [641] "black" "black" "black" "black" "black" "red"   "red"   "red"   "black" "red"  
+## [651] "red"   "red"   "black" "black" "black" "black" "red"   "red"   "red"   "red"  
+## [661] "red"   "black" "black" "red"   "black" "black" "red"
+```
+
+
+
+```r
+protium$cores.map &lt;- ifelse(protium$Species == spp[1], 'red','black')
+cores.map &lt;- protium$cores.map
+```
+
+---
+
+### Variáveis - Cria um vetor de tamanho para cada espécie
+
+Esse vetor é atribuído a uma coluna do conjunto de dados `protium`.  
+
+*Protium heptaphyllum* possui uma distribuição mais ampla, por isso atribuo um tamanho menor pra ela.  
+
+
+```r
+protium$cex.p &lt;- ifelse(protium$Species == spp[1], 1, 0.8)
+```
+
+---
+
+### Variáveis - Vetor contendo dados de latitude e longitude em objetos separados
+
+
+
+```r
+lat &lt;- protium$decimalLatitude
+long &lt;- protium$decimalLongitude
+# amplitude de lat e long para lat e long
+y1 &lt;- range(lat) + c(-1,1)
+x1 &lt;- range(long) + c(-1,1)
+```
+
+---
+
+### Variáveis - Vetor para os símbolos de cada espécie
+
+Dúvidas, executar `?points` no R e verificar as formas de pontos atribuídas a cada número.  
+
+
+```r
+protium$pontos &lt;- ifelse(protium$Species == spp[1], 21, 24)
+```
+
+---
+
+### Variáveis - Vetor nomes de países da região Neotropical
+
+
+
+---
+
+## Plota o mapa - Mapa base
+
+
+```r
+*map(regions = paises, fill = F, xlim = x1, ylim = y1)
+```
+
+![](index_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+---
+
+## Pontos de ocorrencia de cada espécie
+
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+*points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+```
+
+![](index_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+---
+
+## Coloca eixos das coordenadas
+
+.pull-left[
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+*map.axes()
+*axis(side=4,las=1)
+*axis(side=3,las=1)
+```
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+]
+
+
+---
+
+## Coloca escala do mapa
+
+.pull-left[
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+map.axes()
+axis(side=4,las=1)
+axis(side=3,las=1)
+*par(cex=1, las=1)
+*map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
+```
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-32-1.png)&lt;!-- --&gt;
+]
+
+
+---
+
+## Plota a linha do equador
+
+.pull-left[
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+map.axes()
+axis(side=4,las=1)
+axis(side=3,las=1)
+par(cex=1, las=1)
+map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
+*abline(h=0,lwd=0.5,lty="dotted")
+```
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-34-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## Nomeia a linha do equador
+
+.pull-left[
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+map.axes()
+axis(side=4,las=1)
+axis(side=3,las=1)
+par(cex=1, las=1)
+map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
+abline(h=0,lwd=0.5,lty="dotted")
+*text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5))
+```
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-36-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## Plota uma legenda
+
+
+.pull-left[
+
+```r
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+map.axes()
+axis(side=4,las=1)
+axis(side=3,las=1)
+par(cex=1, las=1)
+map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
+abline(h=0,lwd=0.5,lty="dotted")
+*legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3)
+```
+]
+
+.pull-right[
+![](index_files/figure-html/unnamed-chunk-38-1.png)&lt;!-- --&gt;
+]
+
+---
+
+## E se eu quiser salvar o mapa em um `pdf`, como eu faço?
+
+.pull-left[
+
+```r
+*pdf('meu_mapa_complexo_protium_aracouchini_e_heptaphyllum.pdf',height=8,width=10)
+map(regions = paises, fill = F, xlim = x1, ylim = y1)
+points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
+map.axes()
+axis(side=4,las=1)
+axis(side=3,las=1)
+par(cex=1, las=1)
+map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
+abline(h=0,lwd=0.5,lty="dotted")
+text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5))
+legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3)
+*dev.off()
+```
+]
+
+
+.pull-right[
+
+```
+## quartz_off_screen 
+##                 2
+```
+]
+
+---
+class: inverse, center, middle
+## Mais referências!
+
+
+---
+
+### [Curso básico de introdução ao R](https://intror.netlify.app)
+
+.center[
+&lt;img src="figuras/cursoR.png" style="width:1000px;height:500px;"&gt;
+]
+
+---
+
+### [Making maps with R](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
+
+.center[
+&lt;img src="figuras/molecol.png" style="width:1000px;height:500px;"&gt;
+]
+
+---
+
+### [Maps in R: Introduction](http://www.milanor.net/blog/?p=534)
+
+.center[
+&lt;img src="figuras/milano.png" style="width:1000px;height:500px;"&gt;
+]
+
+---
+
+### [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
+
+.center[
+&lt;img src="figuras/geocomputation.png" style="width:1000px;height:500px;"&gt;
+]
+
+---
+
+# O que acrescentar?
+
+para o dia 2, explorar a parte de limpeza dos dados
+
+---
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="libs/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false,
+"click": true
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+base
+readr
+dplyr
+purrr
+tidyr
+xaringanthemer
+RefManageR
+maps
+RColorBrewer
+tmap
+ggplot2
+ggmap
