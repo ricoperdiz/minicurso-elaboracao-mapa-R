@@ -51,7 +51,7 @@ layout: false
 
 name: title
 class: left, bottom
-background-image: url("../figuras/title-slide.001.jpeg")
+background-image: url("figuras/title-slide.001.jpeg")
 background-size: cover
 
 .pull-left[
@@ -93,7 +93,7 @@ meta() %>%
 ```
 
 class: middle, center, hide_logo
-background-image: url("../figuras/who-am-i.001.jpeg")
+background-image: url("figuras/who-am-i.001.jpeg")
 background-size: cover
 
 
@@ -102,7 +102,7 @@ background-size: cover
 
 ### Sobre mim
 
-<img style="border-radius: 60%;" src="../figuras/ROPerdiz.jpg" width="100px"/>
+<img style="border-radius: 60%;" src="figuras/ROPerdiz.jpg" width="100px"/>
 
   **Dr. em Botânica (INPA)**  
   **Analista de dados**  
@@ -183,7 +183,7 @@ name: introducao
 class: inverse, center, middle
 # Introdução básica
 
-![R](../figuras/R.png)
+![R](figuras/R.png)
 
 ???
 
@@ -196,7 +196,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** é uma **linguagem** e **ambiente** para análise estatística e produção de gráficos de alta qualidade.
 
 .center[
-<img src="../figuras/oqueeR.png" style="width:1000px;height:500px;">
+<img src="figuras/oqueeR.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -206,7 +206,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** pode ser utilizado para manipular e analisar dados, criar gráficos, e simulação computacional.
 
 .center[
-<img src="../figuras/analises.png" style="width:600px;height:500px;">
+<img src="figuras/analises.png" style="width:600px;height:500px;">
 ]
 
 ---
@@ -216,7 +216,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** pode ter extensão de funções através do uso de **[pacotes](https://www.cran.r-project.org/web/packages/)**, baixados por meio do **C**omprehensive **R** **A**rchive **N**etwork (**[CRAN](https://www.cran.r-project.org))**
 
 .center[
-<img src="../figuras/cran.png" style="width:800px;height:600px;">
+<img src="figuras/cran.png" style="width:800px;height:600px;">
 ]
 
 ---
@@ -253,13 +253,13 @@ Verificar este tutorial para instalação: [https://github.com/ricoperdiz/minicu
 
 ## Qual é a cara do R? Mac OS
 
-![R no MAC OS X](../figuras/01.png)
+![R no MAC OS X](figuras/01.png)
 
 ---
 
 ## Qual é a cara do R? Windows
 
-![R no Windows](../figuras/cara_R_windows.png)
+![R no Windows](figuras/cara_R_windows.png)
 
 ---
 
@@ -267,7 +267,7 @@ Verificar este tutorial para instalação: [https://github.com/ricoperdiz/minicu
 
 > "*Orientada a objetos*" - *object-oriented programming*
 
-![budasaid](../figuras/budasaid.jpg)
+![budasaid](figuras/budasaid.jpg)
 
 ---
 
@@ -441,7 +441,7 @@ Uma das maneiras é digitar "?" + "*nomeDaFunção*".
 
 ### O meu melhor amigo é o **?** (ou a ajuda do R!)
 
-![helpseq](../figuras/seq.png)
+![helpseq](figuras/seq.png)
 
 ---
 
@@ -521,7 +521,7 @@ cidade_ita <-
 ggmap(cidade_ita)
 ```
 
-![](../figuras/itacoa.png)
+![](figuras/itacoa.png)
 
 ]
 
@@ -533,13 +533,13 @@ ggmap(cidade_ita)
 
 #### [Curso básico de introdução à linguagem R](https://intror.netlify.app)
 
-![Curso R](../figuras/cursoR.png)
+![Curso R](figuras/cursoR.png)
 
 ---
 
 ## Recursos para aprender linguagens de programação - [Grasshopper](https://grasshopper.app/pt_br/)
 
-![grasshopper](../figuras/grasshopper.png)
+![grasshopper](figuras/grasshopper.png)
 
 ---
 class: inverse, center, middle
@@ -554,7 +554,7 @@ class: inverse, center, middle
 
 ### [R-bloggers](https://www.r-bloggers.com/)
 
-![R bloggers](../figuras/rbloggers.png)
+![R bloggers](figuras/rbloggers.png)
 
 ---
 
@@ -562,7 +562,7 @@ class: inverse, center, middle
 
 [Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
 
-![Postagem](../figuras/postagem.png)
+![Postagem](figuras/postagem.png)
 
 ???
 
@@ -592,7 +592,7 @@ Os dados foram baixados do [herbário virtual do Jardim Botânico de Nova Iorque
 install.packages("maps")
 ```
 
-![Instalando pacotes](../figuras/instalando_pacotes.png)
+![Instalando pacotes](figuras/instalando_pacotes.png)
 
 ---
 
@@ -612,7 +612,7 @@ Neste minicurso, utilizaremos apenas o pacote `maps`, a fim de simplificar o apr
 
 ### Intervalo
 
-!['coffeandcode'](../figuras/coffeCode.jpg)
+!['coffeandcode'](figuras/coffeCode.jpg)
 
 ---
 name: dados
@@ -808,7 +808,7 @@ class: inverse, center
 ## Amanhã, dia 22 de outubro, continuaremos!
 
 .pull-left[
-![](../figuras/Meu-agradecimento.gif)
+![](figuras/Meu-agradecimento.gif)
 ]
 
 .pull-right[
