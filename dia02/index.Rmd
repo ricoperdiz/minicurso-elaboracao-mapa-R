@@ -131,8 +131,9 @@ meta() %>%
 
 ---
 
+## Recuperando todo nosso trabalho de ontem
 
-```{r, include=FALSE}
+```{r, eval=TRUE, echo=TRUE}
 # Carrega o pacote
 library("maps")
 # Importa os dados
@@ -148,9 +149,10 @@ protium <-
   )
 # Cria variaveis
 spp <- unique(protium$Species)
-spp
 cores.map <- ifelse(protium$Species == spp[1], 'red','black')
 ```
+
+---
 
 ### Variáveis - Cria um vetor de tamanho para cada espécie
 
@@ -203,8 +205,16 @@ protium$pontos <- ifelse(protium$Species == spp[1], 21, 24)
 
 ### Variáveis - Vetor nomes de países da região Neotropical
 
-```{r}
+```{r, echo=TRUE}
 paises <- c('Brazil','Argentina','Peru','Paraguay','Ecuador','Chile','Uruguay','French Guiana','Suriname','Venezuela','Colombia','Guyana','Bolivia','Panama','Costa Rica')
+```
+
+---
+
+## Plota o mapa - Mapa base
+
+```{r, eval=FALSE}
+?maps::map
 ```
 
 ---
@@ -377,26 +387,8 @@ legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.
 
 ## E se eu quiser salvar o mapa em um `pdf`, como eu faço?
 
-.pull-left[
+.center[
 ```{r, eval=FALSE, echo=TRUE}
-pdf('meu_mapa_complexo_protium_aracouchini_e_heptaphyllum.pdf',height=8,width=10) #<<
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5))
-legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3)
-dev.off() #<<
-```
-]
-
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
 pdf('meu_mapa_complexo_protium_aracouchini_e_heptaphyllum.pdf',height=8,width=10) #<<
 maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
 points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
@@ -450,6 +442,133 @@ class: inverse, center, middle
 ]
 
 ---
+
+## Checagem de dados - 01
+
+```{r, echo=TRUE}
+library("dplyr")
+dad <- 
+  read.table(
+    file = url(
+      "https://raw.githubusercontent.com/ricoperdiz/Tutorials/master/R_make_a_map/nybg_paracouchini.csv"
+    ),
+    header = TRUE,
+    as.is = TRUE,
+    sep = '\t',
+    dec = '.'
+  ) %>% 
+  select(recordedBy, recordNumber, decimalLatitude, decimalLongitude, identifiedBy, specificEpithet) %>%
+  arrange(recordedBy, recordNumber)
+```
+
+---
+
+## Checagem de dados - 02
+
+```{r, echo=TRUE}
+#   + existência de valores vazios; em caso positivo, devemos eliminá-los;
+# + confiabilidade dos valores de latitude e longitude, às vezes, por diversos fatores, há troca de sinais (negativos e positivos) ocasionando equívocos quanto à ocorrência exata da amostra. Se for percebido algo assim, é bom checar os dados e buscar corrigí-los.
+# une os dados e passa para a proxima acao
+dados <- 
+  dad %>% 
+  #elimina os registros vazios de coletor
+  filter(recordedBy != '') %>%
+  #elimina os registros sem lat ou long
+  filter(decimalLatitude != '' | decimalLongitude != '') %>%
+  #filtra apenas os especimes identificados pelo especialista da família Burseraceae
+  filter(identifiedBy == 'D. C. Daly')
+```
+
+---
+
+## Checagem de dados - 03
+
+```{r, echo=TRUE}
+#ha registros duplicados
+#busca-se entao apenas os dados unicos
+#limpa os dados de coletor e numero para poder criar um identificador
+#limpeza consiste em eliminar '.', espacos vazios, apostrofe e '_' duplos
+dados$recordedBy <-
+  gsub('\\.', '_', dados$recordedBy) %>%
+  gsub(' ', '_', .) %>%
+  gsub("'", '_', .) %>%
+  gsub('__', '_', .)
+```
+
+---
+
+## Checagem de dados - 04
+
+```{r, echo=TRUE}
+#faz-se o mesmo para os numeros de coleta
+dados$recordNumber <- 
+  gsub('/','_', dados$recordNumber) %>%
+  gsub(' ', '_', .) %>%
+  gsub('\\.', '_', .)
+```
+
+---
+
+## Checagem de dados - 05
+
+```{r, echo=TRUE}
+#cria o identificador de coleta e especie
+arac <- dados %>%
+  mutate( ID = paste(recordedBy,recordNumber, sep = '_'), Species = paste('Protium', specificEpithet, sep = ' '))
+arac$ID <- gsub('__','_',arac$ID)
+```
+
+
+---
+
+## Checagem de dados - 06
+
+```{r, echo=TRUE}
+#quem sao os dados unicos
+unicos <- unique(arac$ID)
+```
+
+
+---
+
+## Checagem de dados - 07
+
+```{r, echo=TRUE}
+#agora filtra os dados unicos no dataframe, eliminando os duplicados
+#faz-se uso da funcao match para obter esse resultado
+prot_arac <- 
+  match(unicos, arac$ID) %>%
+  dados[.,]
+```
+
+
+---
+
+## Checagem de dados - 08
+
+```{r, echo=TRUE}
+#verifica a cobertura de lat e long para ver se estao dentro
+# dos limites da America do Sul
+lat <- range(prot_arac$decimalLatitude)
+long <- range(prot_arac$decimalLongitude)
+#aqui tem algo estranho
+#percebe-se aqui que ha valores que caem fora da Am Sul
+#limite e pouco mais de -80
+head(sort(prot_arac$decimalLongitude))
+```
+
+---
+
+## Checagem de dados - 09
+
+```{r, echo=TRUE}
+#devemos eliminar
+prot_arac_limpo <-
+  prot_arac %>%
+  filter(decimalLongitude > -80)
+```
+
+---
 class: inverse, center
 
 # Grato!
@@ -460,77 +579,8 @@ class: inverse, center
 
 .pull-right[
 .LARGE[Dúvidas? Entrem em contato!]  
-  .bg-white[[`r icons::fontawesome("github")` @ricoperdiz](https://github.com/ricoperdiz)]  
-  [`r icons::fontawesome("twitter")` @ricoperdiz](https://twitter.com/ricoperdiz)  
-  [`r icons::fontawesome("link")` ricardoperdiz.com](https://ricardoperdiz.com)  
-  [`r icons::fontawesome("paper-plane")` ricoperdiz@gmail.com](mailto:ricoperdiz@gmail.com)  
-  .LARGE[GitHub: ricoperdiz]  
-  .LARGE[Twitter: ricoperdiz]  
-  .LARGE[ricardoperdiz.com]  
-  .LARGE[ricoperdiz@gmail.com]  
+  .LARGE[.bg-white[[`r icons::fontawesome("github")` @ricoperdiz](https://github.com/ricoperdiz)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("twitter")` @ricoperdiz](https://twitter.com/ricoperdiz)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("link")` ricardoperdiz.com](https://ricardoperdiz.com)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("paper-plane")` ricoperdiz@gmail.com](mailto:ricoperdiz@gmail.com)]]  
 ]
-
----
-
-## Checagem de dados
-
-```{r, eval=FALSE, include=FALSE}
-# Em nosso caso, devemos verificar:
-  
-#   + existência de valores vazios; em caso positivo, devemos eliminá-los;
-# + confiabilidade dos valores de latitude e longitude, às vezes, por diversos fatores, há troca de sinais (negativos e positivos) ocasionando equívocos quanto à ocorrência exata da amostra. Se for percebido algo assim, é bom checar os dados e buscar corrigí-los.
-
-# une os dados e passa para a proxima acao
-dad <- 
-  rbind(aracouch,heptaphy) %>%
-  #elimina os registros vazios de coletor
-  filter(recordedBy != '') %>%
-  #elimina os registros sem lat ou long
-  filter(decimalLatitude != '' | decimalLongitude != '') %>%
-  #filtra apenas os especimes identificados pelo especialista da família Burseraceae
-  filter(identifiedBy == 'D. C. Daly')
-
-#ha registros duplicados
-#busca-se entao apenas os dados unicos
-#limpa os dados de coletor e numero para poder criar um identificador
-#limpeza consiste em eliminar '.', espacos vazios, apostrofe e '_' duplos
-dad$recordedBy <-
-  gsub('\\.', '_', dad$recordedBy) %>%
-  gsub(' ', '_', .) %>%
-  gsub("'", '_', .) %>%
-  gsub('__', '_', .)
-
-#faz-se o mesmo para os numeros de coleta
-dad$recordNumber <- 
-  gsub('/','_', dad$recordNumber) %>%
-  gsub(' ', '_', .) %>%
-  gsub('\\.', '_', .)
-
-#cria o identificador de coleta e especie
-dados <- dad %>%
-  mutate( ID = paste(recordedBy,recordNumber, sep = '_'), Species = paste('Protium', specificEpithet, sep = ' '))
-dados$ID <- gsub('__','_',dados$ID)
-
-
-#quem sao os dados unicos
-unicos <- unique(dados$ID)
-
-#agora filtra os dados unicos no dataframe, eliminando os duplicados
-#faz-se uso da funcao match para obter esse resultado
-prot <- 
-  match(unicos, dados$ID) %>%
-  dados[.,]
-#verifica a cobertura de lat e long para ver se estao dentro
-# dos limites da America do Sul
-lat <- range(prot$decimalLatitude)
-long <- range(prot$decimalLongitude) #aqui tem algo estranho
-#percebe-se aqui que ha valores que caem fora da Am Sul
-#limite e pouco mais de -80
-head(sort(prot$decimalLongitude))
-#devemos eliminar
-protium <-
-  prot %>%
-  filter(decimalLongitude > -80)
-
-```
-
