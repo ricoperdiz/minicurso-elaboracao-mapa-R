@@ -52,7 +52,7 @@ layout: false
 
 name: title
 class: left, bottom
-background-image: url("figuras/title-slide.001.jpeg")
+background-image: url("figures/title-slide.001.jpeg")
 background-size: cover
 
 .pull-left[
@@ -119,14 +119,14 @@ meta() %>%
 ## Um pequeno reforço! [Aulas em vídeo](https://intror.netlify.app/videos.html) no [curso básico de introdução à linguagem R](https://intror.netlify.app/)
 
 .center[
-<img src="figuras/videos.png" style="width:1000px;height:500px;">
+<img src="figures/videos.png" style="width:1000px;height:500px;">
 ]
 
 ---
 
 ## Um pequeno reforço! [Aulas em vídeo](https://intror.netlify.app/videos.html) no [curso básico de introdução à linguagem R](https://intror.netlify.app/)
 
-![](figuras/INSCREVER_youtube_gif.gif)
+![](figures/INSCREVER_youtube_gif.gif)
 
 
 ---
@@ -414,7 +414,7 @@ class: inverse, center, middle
 ### [Curso básico de introdução ao R](https://intror.netlify.app)
 
 .center[
-<img src="figuras/cursoR.png" style="width:1000px;height:500px;">
+<img src="figures/cursoR.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -422,7 +422,7 @@ class: inverse, center, middle
 ### [Making maps with R](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
 
 .center[
-<img src="figuras/molecol.png" style="width:1000px;height:500px;">
+<img src="figures/molecol.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -430,7 +430,7 @@ class: inverse, center, middle
 ### [Maps in R: Introduction](http://www.milanor.net/blog/?p=534)
 
 .center[
-<img src="figuras/milano.png" style="width:1000px;height:500px;">
+<img src="figures/milano.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -438,7 +438,7 @@ class: inverse, center, middle
 ### [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
 
 .center[
-<img src="figuras/geocomputation.png" style="width:1000px;height:500px;">
+<img src="figures/geocomputation.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -574,7 +574,7 @@ class: inverse, center
 # Grato!
 
 .pull-left[
-![](figuras/Meu-agradecimento.gif)
+![](figures/Meu-agradecimento.gif)
 ]
 
 .pull-right[
