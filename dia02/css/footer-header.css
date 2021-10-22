@@ -1,0 +1,55 @@
+div.my-header {
+    background-color: #002b36;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 30px;
+    width: 100%;
+    text-align: left;
+}
+
+div.my-header span {
+    font-size: 14pt;
+    color: #fdf6e3;
+    position: fixed;
+    top: 3px;
+    left: 4px;
+}
+
+div.my-footer {
+/*    background-color: #002b36;*/
+    background-color: #272822;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+div.my-footer span {
+    font-size: 10pt;
+    color: #F7F8FA;
+    position: absolute;
+    left: 15px;
+    bottom: 2px;
+}
+
+div.my-footer-w {
+/*    background-color: #002b36;*/
+    background-color: #FFFFFF;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+div.my-footer-w span {
+    font-size: 10pt;
+    color: #272822;
+    position: absolute;
+    left: 15px;
+    bottom: 2px;
+}
