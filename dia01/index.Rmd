@@ -2,7 +2,7 @@
 title: "Elaboração de mapas de distribuição de espécies em R"
 subtitle: "Comandos básicos para você preparar seu próprio mapa"
 author: "Dr. Ricardo Perdiz"
-date: "21--22 Out 2021"
+date: "21--22 Out 2021 | Dia 01"
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -51,7 +51,7 @@ layout: false
 
 name: title
 class: left, bottom
-background-image: url("figuras/title-slide.001.jpeg")
+background-image: url("../figuras/title-slide.001.jpeg")
 background-size: cover
 
 .pull-left[
@@ -93,7 +93,7 @@ meta() %>%
 ```
 
 class: middle, center, hide_logo
-background-image: url("figuras/who-am-i.001.jpeg")
+background-image: url("../figuras/who-am-i.001.jpeg")
 background-size: cover
 
 
@@ -102,7 +102,7 @@ background-size: cover
 
 ### Sobre mim
 
-<img style="border-radius: 60%;" src="figuras/ROPerdiz.jpg" width="100px"/>
+<img style="border-radius: 60%;" src="../figuras/ROPerdiz.jpg" width="100px"/>
 
   **Dr. em Botânica (INPA)**  
   **Analista de dados**  
@@ -183,7 +183,7 @@ name: introducao
 class: inverse, center, middle
 # Introdução básica
 
-![R](figuras/R.png)
+![R](../figuras/R.png)
 
 ???
 
@@ -196,7 +196,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** é uma **linguagem** e **ambiente** para análise estatística e produção de gráficos de alta qualidade.
 
 .center[
-<img src="figuras/oqueeR.png" style="width:1000px;height:500px;">
+<img src="../figuras/oqueeR.png" style="width:1000px;height:500px;">
 ]
 
 ---
@@ -206,7 +206,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** pode ser utilizado para manipular e analisar dados, criar gráficos, e simulação computacional.
 
 .center[
-<img src="figuras/analises.png" style="width:600px;height:500px;">
+<img src="../figuras/analises.png" style="width:600px;height:500px;">
 ]
 
 ---
@@ -216,7 +216,7 @@ Desejo agora explanar brevemente sobre o que é o R, e passar conhecimentos bem 
 > **R** pode ter extensão de funções através do uso de **[pacotes](https://www.cran.r-project.org/web/packages/)**, baixados por meio do **C**omprehensive **R** **A**rchive **N**etwork (**[CRAN](https://www.cran.r-project.org))**
 
 .center[
-<img src="figuras/cran.png" style="width:800px;height:600px;">
+<img src="../figuras/cran.png" style="width:800px;height:600px;">
 ]
 
 ---
@@ -253,13 +253,13 @@ Verificar este tutorial para instalação: [https://github.com/ricoperdiz/minicu
 
 ## Qual é a cara do R? Mac OS
 
-![R no MAC OS X](figuras/01.png)
+![R no MAC OS X](../figuras/01.png)
 
 ---
 
 ## Qual é a cara do R? Windows
 
-![R no Windows](figuras/cara_R_windows.png)
+![R no Windows](../figuras/cara_R_windows.png)
 
 ---
 
@@ -267,7 +267,7 @@ Verificar este tutorial para instalação: [https://github.com/ricoperdiz/minicu
 
 > "*Orientada a objetos*" - *object-oriented programming*
 
-![budasaid](figuras/budasaid.jpg)
+![budasaid](../figuras/budasaid.jpg)
 
 ---
 
@@ -441,7 +441,7 @@ Uma das maneiras é digitar "?" + "*nomeDaFunção*".
 
 ### O meu melhor amigo é o **?** (ou a ajuda do R!)
 
-![helpseq](figuras/seq.png)
+![helpseq](../figuras/seq.png)
 
 ---
 
@@ -521,7 +521,7 @@ cidade_ita <-
 ggmap(cidade_ita)
 ```
 
-![](figuras/itacoa.png)
+![](../figuras/itacoa.png)
 
 ]
 
@@ -533,13 +533,13 @@ ggmap(cidade_ita)
 
 #### [Curso básico de introdução à linguagem R](https://intror.netlify.app)
 
-![Curso R](figuras/cursoR.png)
+![Curso R](../figuras/cursoR.png)
 
 ---
 
 ## Recursos para aprender linguagens de programação - [Grasshopper](https://grasshopper.app/pt_br/)
 
-![grasshopper](figuras/grasshopper.png)
+![grasshopper](../figuras/grasshopper.png)
 
 ---
 class: inverse, center, middle
@@ -554,7 +554,7 @@ class: inverse, center, middle
 
 ### [R-bloggers](https://www.r-bloggers.com/)
 
-![R bloggers](figuras/rbloggers.png)
+![R bloggers](../figuras/rbloggers.png)
 
 ---
 
@@ -562,7 +562,7 @@ class: inverse, center, middle
 
 [Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
 
-![Postagem](figuras/postagem.png)
+![Postagem](../figuras/postagem.png)
 
 ???
 
@@ -592,7 +592,7 @@ Os dados foram baixados do [herbário virtual do Jardim Botânico de Nova Iorque
 install.packages("maps")
 ```
 
-![Instalando pacotes](figuras/instalando_pacotes.png)
+![Instalando pacotes](../figuras/instalando_pacotes.png)
 
 ---
 
@@ -612,7 +612,7 @@ Neste minicurso, utilizaremos apenas o pacote `maps`, a fim de simplificar o apr
 
 ### Intervalo
 
-!['coffeandcode'](figuras/coffeCode.jpg)
+!['coffeandcode'](../figuras/coffeCode.jpg)
 
 ---
 name: dados
@@ -799,295 +799,16 @@ cores.map
 
 ---
 
-### Variáveis - Cria um vetor de tamanho para cada espécie
-
-Esse vetor é atribuído a uma coluna do conjunto de dados `protium`.  
-
-*Protium heptaphyllum* possui uma distribuição mais ampla, por isso atribuo um tamanho menor pra ela.  
-
-```{r, echo=TRUE}
-protium$cex.p <- ifelse(protium$Species == spp[1], 1, 0.8)
-```
-
----
-
-### Variáveis - Vetor contendo dados de latitude e longitude em objetos separados
-
-```{r, echo=TRUE}
-lat <- protium$decimalLatitude
-long <- protium$decimalLongitude
-# amplitude de lat e long para lat e long
-y1 <- range(lat) + c(-1,1)
-x1 <- range(long) + c(-1,1)
-```
-
----
-
-### Variáveis - Vetor para os símbolos de cada espécie
-
-Dúvidas, executar `?points` no R e verificar as formas de pontos atribuídas a cada número.  
-
-```{r, echo=TRUE}
-protium$pontos <- ifelse(protium$Species == spp[1], 21, 24)
-```
-
----
-
-### Variáveis - Vetor nomes de países da região Neotropical
-
-```{r}
-paises <- c('Brazil','Argentina','Peru','Paraguay','Ecuador','Chile','Uruguay','French Guiana','Suriname','Venezuela','Colombia','Guyana','Bolivia','Panama','Costa Rica')
-```
-
----
-
-## Plota o mapa - Mapa base
-
-```{r, echo=TRUE, fig.height=6, fig.width=10}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1) #<<
-```
-
----
-
-## Pontos de ocorrencia de cada espécie
-
-```{r, echo=TRUE, fig.height=6, fig.width=10}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p) #<<
-```
-
----
-
-## Coloca eixos das coordenadas
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes() #<<
-axis(side=4,las=1) #<<
-axis(side=3,las=1) #<<
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes() #<<
-axis(side=4,las=1) #<<
-axis(side=3,las=1) #<<
-```
-]
-
-
----
-
-## Coloca escala do mapa
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1) #<<
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T) #<<
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1) #<<
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T) #<<
-```
-]
-
-
----
-
-## Plota a linha do equador
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted") #<<
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted") #<<
-```
-]
-
----
-
-## Nomeia a linha do equador
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5)) #<<
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5)) #<<
-```
-]
-
----
-
-## Plota uma legenda
-
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3) #<<
-```
-]
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3) #<<
-```
-]
-
----
-
-## E se eu quiser salvar o mapa em um `pdf`, como eu faço?
-
-.pull-left[
-```{r, eval=FALSE, echo=TRUE}
-pdf('meu_mapa_complexo_protium_aracouchini_e_heptaphyllum.pdf',height=8,width=10) #<<
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5))
-legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3)
-dev.off() #<<
-```
-]
-
-
-.pull-right[
-```{r, echo=FALSE, fig.height=10, fig.width=12}
-pdf('meu_mapa_complexo_protium_aracouchini_e_heptaphyllum.pdf',height=8,width=10) #<<
-maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
-points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
-map.axes()
-axis(side=4,las=1)
-axis(side=3,las=1)
-par(cex=1, las=1)
-map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
-abline(h=0,lwd=0.5,lty="dotted")
-text(x = max(long) - 1, y = 1,labels="Equador", cex=1, adj=c(1,0.5))
-legend(max(long) - 16 , max(lat),legend = spp, pch = unique(protium$pontos), pt.bg = unique(cores.map), cex = 0.8, x.intersp = 0.8, text.font = 3)
-dev.off() #<<
-```
-]
-
----
-class: inverse, center, middle
-## Mais referências!
-
-
----
-
-### [Curso básico de introdução ao R](https://intror.netlify.app)
-
-.center[
-<img src="figuras/cursoR.png" style="width:1000px;height:500px;">
-]
-
----
-
-### [Making maps with R](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
-
-.center[
-<img src="figuras/molecol.png" style="width:1000px;height:500px;">
-]
-
----
-
-### [Maps in R: Introduction](http://www.milanor.net/blog/?p=534)
-
-.center[
-<img src="figuras/milano.png" style="width:1000px;height:500px;">
-]
-
----
-
-### [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
-
-.center[
-<img src="figuras/geocomputation.png" style="width:1000px;height:500px;">
-]
-
----
 class: inverse, center
 
-# Grato!
+# Fim do dia 1!
+
+--
+
+## Amanhã, dia 22 de outubro, continuaremos!
 
 .pull-left[
-![](figuras/Meu-agradecimento.gif)
+![](../figuras/Meu-agradecimento.gif)
 ]
 
 .pull-right[
