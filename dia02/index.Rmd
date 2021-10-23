@@ -13,8 +13,8 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      # ratio: "16:9"
-      ratio: 191:100 # para criar um cartao de compartilhamento na rede - seguindo instrucoes em <https://www.garrickadenbuie.com/blog/sharing-xaringan-slides/>
+      ratio: "16:9"
+      # ratio: 191:100 # para criar um cartao de compartilhamento na rede - seguindo instrucoes em <https://www.garrickadenbuie.com/blog/sharing-xaringan-slides/>
       navigation:
         scroll: false
         click: true
@@ -85,7 +85,7 @@ layout: true
 
 ---
 
-```{r, include = FALSE, eval=TRUE}
+```{r, include=FALSE, eval=FALSE}
 library("metathis")
 meta() %>%
   meta_general(
