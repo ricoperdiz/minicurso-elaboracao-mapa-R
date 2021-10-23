@@ -85,7 +85,7 @@ layout: true
 
 ---
 
-```{r, include = FALSE, eval=FALSE}
+```{r, include = FALSE, eval=TRUE}
 library("metathis")
 meta() %>%
   meta_general(
@@ -96,7 +96,7 @@ meta() %>%
   meta_social(
     title = "Elaboração de mapas de distribuição de espécies em R - dia 2",
     url = "https://minicurso-elaboracao-mapa-r-dia02.netlify.app",
-    image = "https://raw.githubusercontent.com/ricoperdiz/plantintelligence/main/share-card.png?token=ACSZLRFRBETCEJ65HB2PQKLAL72RG",
+    image = "https://raw.githubusercontent.com/ricoperdiz/minicurso-elaboracao-mapa-R/main/dia02/share-card.png",
     image_alt = paste(
       "Slide título do minicurso Elaboração de mapas de distribuição de espécies em R:",
       "Comandos básicos para você preparar seu próprio mapa,",
