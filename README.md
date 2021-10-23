@@ -33,5 +33,5 @@ Também sugiro que instalem o [RStudio](https://www.rstudio.com/products/rstudio
 # Mais informações
 
 * Endereço para a apresentação do dia 01: https://minicurso-elaboracao-mapa-r-dia01.netlify.app  
-Endereço para a apresentação do dia 02: https://minicurso-elaboracao-mapa-r-dia02.netlify.app
+* Endereço para a apresentação do dia 02: https://minicurso-elaboracao-mapa-r-dia02.netlify.app
 
