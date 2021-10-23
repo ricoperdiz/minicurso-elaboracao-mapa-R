@@ -13,7 +13,8 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
-      ratio: "16:9"
+      # ratio: "16:9"
+      ratio: 191:100 # para criar um cartao de compartilhamento na rede - seguindo instrucoes em <https://www.garrickadenbuie.com/blog/sharing-xaringan-slides/>
       navigation:
         scroll: false
         click: true
@@ -26,33 +27,29 @@ library("xaringanthemer")
 ```
 
 ```{r xaringan-themer, include=FALSE, warning=FALSE}
-# style_mono_accent(base_color = "#23395b")
-style_duo_accent(primary_color = "#03A696", secondary_color = "#035AA6", header_font_google = google_font("Josefin Sans"), text_font_google   = google_font("Montserrat", "300", "300i"), code_font_google   = google_font("Fira Mono"), inverse_text_shadow = FALSE)
+style_duo_accent(
+  primary_color = "#03A696", 
+  secondary_color = "#035AA6",
+  header_font_google = google_font("Josefin Sans"),
+  text_font_google   = google_font("Montserrat", "300", "300i"),
+  code_font_google   = google_font("Fira Mono"),
+  inverse_text_shadow = FALSE
+  )
 ```
 
-```{r xaringanExtra, echo=FALSE}
+```{r xaringanExtra, include=FALSE, echo=FALSE}
 xaringanExtra::use_xaringan_extra(c("tile_view", "scribble"))
 xaringanExtra::use_fit_screen()
 xaringanExtra::use_panelset()
-```
-
-```{r, load_refs, include=FALSE}
-# library("RefManageR")
-# bib <- ReadBib("bib.bib", check = FALSE)
-# pb <- function(key) {
-#   TextCite(bib, key, .opts = list(
-#     style = "markdown", 
-#     hyperlink = "to.doc")
-#     )
-# }
+xaringanExtra::use_tachyons()
+xaringanExtra::use_share_again()
 ```
 
 layout: false
 
 name: title
-class: left, bottom
-background-image: url("figuras/title-slide.001.jpeg")
-background-size: cover
+class: inverse, left, bottom
+
 
 .pull-left[
 
@@ -64,6 +61,16 @@ background-size: cover
 
 ]
 
+.pull-right[
+
+.center[
+<img src="./figuras/logo_principal_com_fundo.png" style="width:125px;height:125px;">
+]
+<img src="./figuras/mapa_slide.png" style="width:560px;height:480px;">
+
+]
+
+
 <div class="cr cr-top cr-left cr-sticky cr-black">COVID19</div>
 
 ---
@@ -74,21 +81,28 @@ layout: true
 
 ---
 
-```{r, include = FALSE, eval = FALSE}
+```{r, include = FALSE, eval=TRUE}
 library("metathis")
 meta() %>%
   meta_general(
     description = "Minicurso simplificado para produção de mapas de distribuição de espécies utilizando o ambiente R",
     generator = "xaringan e remark.js"
   ) %>% 
-  meta_name("github-repo" = "ricoperdiz/plantintelligence") %>% 
+  meta_name("github-repo" = "ricoperdiz/minicurso-elaboracao-mapa-R") %>% 
   meta_social(
-    title = "Plant intelligence",
-    # url = "https://rstd.io/sharing",
-    image = "https://raw.githubusercontent.com/ricoperdiz/plantintelligence/main/share-card.png?token=ACSZLRFRBETCEJ65HB2PQKLAL72RG",
-    image_alt = "Primeiro slide mostra um mapa com pontos de ocorrência de espécies do complexo Protium aracouchini (Aubl.) Marchand, um grupo de árvores pequenas que ocorre na América do Sul",
+    title = "Elaboração de mapas de distribuição de espécies em R - dia 1",
+    url = "https://minicurso-elaboracao-mapa-r-dia01.netlify.app",
+    image = "https://raw.githubusercontent.com/ricoperdiz/minicurso-elaboracao-mapa-R/main/dia01/share-card.png",
+    image_alt = paste(
+      "Slide título do minicurso Elaboração de mapas de distribuição de espécies em R:",
+      "Comandos básicos para você preparar seu próprio mapa,",
+      "apresentado durante os dias 21 e 22 de outubro de 2021 aos participantes da XV Semana Nacional de Ciência e Tecnologia de Itacoatiara (SNCT-ITA)",
+      "realizado pelo Instituto de Ciências Exatas e Tecnologia da Universidade Federal do Amazonas (ICET-UFAM)"
+      ),
     og_type = "website",
-    twitter_card_type = "summary_large_image"
+    og_author = "Ricardo de Oliveira Perdiz",
+    twitter_card_type = "summary_large_image",
+    twitter_creator = "@ricoperdiz"
   )
 ```
 
@@ -129,7 +143,7 @@ layout: true
 
 ---
 
-# Sumário
+# Sumário de hoje
 
 
 ## [Introdução](#introducao) básica ao R
@@ -154,29 +168,25 @@ layout: true
 
 ### Criação de [variáveis](#variaveis)
 
---
-
-### [Plota](#plota) o mapa
-
 ---
 
-## Versão simplificada do tutorial
+## Versão simplificada do tutorial [Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
 
 ### Carregar [pacotes](#pacotes)
 
 ### Importar [dados](#dados)
 
-### .red[Checagem e limpeza de dados]
+### .red[[Checagem e limpeza de dados](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)]
 
 ### Criação de [variáveis](#variaveis)
 
-### [Plota](#plota) o mapa
+### [Plota](https://minicurso-elaboracao-mapa-r-dia02.netlify.app/#14) o mapa
 
 ???
 
 Apresentarei uma versão simplificada do tutorial, SEM A CHECAGEM e LIMPEZA dos DADOS (RISCAR ESSA PARTE).
 
-Caso haja tempo, eu explorarei essa parte amanhã.  
+Essa parte amanhã será explorada no dia 2 do minicurso.  
 
 ---
 name: introducao
@@ -370,7 +380,7 @@ seq(from = 0,to = 10,by =1)
 .panel[.panel-name[Código R]
 
 ```{r, echo = TRUE, prompt = TRUE}
-x <-sample(1:10,20,replace=TRUE)
+x <- sample(1:10,20,replace=TRUE)
 ```
 
 ]
@@ -595,7 +605,7 @@ install.packages("maps")
 ![Instalando pacotes](figuras/instalando_pacotes.png)
 
 ---
-
+name: pacotes
 ## Carregando os pacotes
 
 ```{r, echo=TRUE}
@@ -604,7 +614,7 @@ library("maps")
 
 ???
 
-A postagem original faz uso dos pacotes _[maps](https://cran.r-project.org/web/packages/maps/maps.pdf)_ (para plotar o mapa), _[RColorBrewer](https://cran.r-project.org/web/packages/RColorBrewer/RColorBrewer.pdf)_ (paleta de cores), _[magrittr](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)_ (pipe, ou `%>%`) e _[dplyr](https://cran.rstudio.com/web/packages/dplyr/vignettes/introduction.html)_ (manipulação de 'dataframes').
+A postagem original faz uso dos pacotes maps (para plotar o mapa), RColorBrewer (paleta de cores), magrittr (pipe, ou `%>%`) e dplyr (manipulação de 'dataframes').
 
 Neste minicurso, utilizaremos apenas o pacote `maps`, a fim de simplificar o aprendizado.  
 
@@ -685,18 +695,21 @@ DT::datatable(
 
 
 ---
-
+name: limpeza
+class: inverse, middle, center
 ## Checagem e limpeza dos dados
 
-* Existência de valores vazios; em caso positivo, devemos eliminá-los;
+--
+
+### Existência de valores vazios; em caso positivo, devemos eliminá-los;
 
 --
 
-* Confiabilidade dos valores de latitude e longitude
+### Confiabilidade dos valores de latitude e longitude
 
 --
 
-* Valores duplicados?
+### Valores duplicados?
 
 ???
 
@@ -769,7 +782,7 @@ Vamos conhecer o famoso "if else", ou em português:
 --
 
 ```{r, echo=TRUE}
-ifelse(protium$Species == spp[1], 'red','black')
+head(ifelse(protium$Species == spp[1], 'red','black'), 50)
 ```
 
 ---
@@ -794,7 +807,7 @@ Para cada espécie, uma cor!
 
 ```{r, echo=TRUE}
 cores.map <- ifelse(protium$Species == spp[1], 'red','black')
-cores.map
+head(cores.map, 50)
 ```
 
 ---
@@ -813,8 +826,8 @@ class: inverse, center
 
 .pull-right[
 .LARGE[Dúvidas? Entrem em contato!]  
-  .LARGE[GitHub: ricoperdiz]  
-  .LARGE[Twitter: ricoperdiz]  
-  .LARGE[ricardoperdiz.com]  
-  .LARGE[ricoperdiz@gmail.com]  
+  .LARGE[.bg-white[[`r icons::fontawesome("github")` @ricoperdiz](https://github.com/ricoperdiz)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("twitter")` @ricoperdiz](https://twitter.com/ricoperdiz)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("link")` ricardoperdiz.com](https://ricardoperdiz.com)]]  
+  .LARGE[.bg-white[[`r icons::fontawesome("paper-plane")` ricoperdiz@gmail.com](mailto:ricoperdiz@gmail.com)]]  
 ]
