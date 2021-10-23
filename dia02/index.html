@@ -15,6 +15,11 @@
     <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
     <script src="libs/panelset-0.2.6/panelset.js"></script>
     <link href="libs/tachyons-4.12.0/tachyons.min.css" rel="stylesheet" />
+    <script src="libs/clipboard-2.0.6/clipboard.min.js"></script>
+    <link href="libs/shareon-1.4.1/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon-1.4.1/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain-0.2.6/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain-0.2.6/shareagain.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="css/footer-header.css" type="text/css" />
     <link rel="stylesheet" href="css/ribbon.css" type="text/css" />
@@ -30,14 +35,11 @@
 
 
 
-
-
 layout: false
 
 name: title
-class: left, bottom
-background-image: url("figures/title-slide.001.jpeg")
-background-size: cover
+class: inverse, left, bottom
+
 
 .pull-left[
 
@@ -48,6 +50,16 @@ background-size: cover
 #### .large[.black[Dr. Ricardo Perdiz | 21--22 Out 2021 | Dia 02]]
 
 ]
+
+.pull-right[
+
+.center[
+&lt;img src="./figuras/logo_principal_com_fundo.png" style="width:125px;height:125px;"&gt;
+]
+&lt;img src="./figuras/mapa_slide.png" style="width:560px;height:480px;"&gt;
+
+]
+
 
 &lt;div class="cr cr-top cr-left cr-sticky cr-black"&gt;COVID19&lt;/div&gt;
 
@@ -87,14 +99,14 @@ layout: true
 ## Um pequeno reforço! [Aulas em vídeo](https://intror.netlify.app/videos.html) no [curso básico de introdução à linguagem R](https://intror.netlify.app/)
 
 .center[
-&lt;img src="figures/videos.png" style="width:1000px;height:500px;"&gt;
+&lt;img src="figuras/videos.png" style="width:1000px;height:500px;"&gt;
 ]
 
 ---
 
 ## Um pequeno reforço! [Aulas em vídeo](https://intror.netlify.app/videos.html) no [curso básico de introdução à linguagem R](https://intror.netlify.app/)
 
-![](figures/INSCREVER_youtube_gif.gif)
+![](figuras/INSCREVER_youtube_gif.gif)
 
 
 ---
@@ -141,12 +153,22 @@ protium$cex.p &lt;- ifelse(protium$Species == spp[1], 1, 0.8)
 
 ```r
 lat &lt;- protium$decimalLatitude
+head(lat)
+```
+
+```
+## [1] -2.31537 -3.18524 -0.57000 -0.57000  0.30000  6.42000
 ```
 
 
 
 ```r
 long &lt;- protium$decimalLongitude
+head(long)
+```
+
+```
+## [1] -59.6855 -60.1302 -72.1300 -72.1300 -66.7000 -67.4200
 ```
 
 ---
@@ -156,13 +178,43 @@ long &lt;- protium$decimalLongitude
 
 ```r
 # amplitude de lat e long para lat e long
+range(lat)
+```
+
+```
+## [1] -25.50  10.18
+```
+
+
+
+```r
 y1 &lt;- range(lat) + c(-1,1)
+y1
+```
+
+```
+## [1] -26.50  11.18
+```
+
+
+
+```r
+range(long)
+```
+
+```
+## [1] -77.9436 -34.8631
 ```
 
 
 
 ```r
 x1 &lt;- range(long) + c(-1,1)
+x1
+```
+
+```
+## [1] -78.9436 -33.8631
 ```
 
 ---
@@ -173,7 +225,12 @@ Dúvidas, executar `?points` no R e verificar as formas de pontos atribuídas a 
 
 
 ```r
-protium$pontos &lt;- ifelse(protium$Species == spp[1], 21, 24)
+protium$pontos &lt;- ifelse(protium$Species == "Protium aracouchini", 21, 24)
+head(protium$pontos)
+```
+
+```
+## [1] 21 24 21 21 21 24
 ```
 
 ---
@@ -183,13 +240,16 @@ protium$pontos &lt;- ifelse(protium$Species == spp[1], 21, 24)
 
 ```r
 paises &lt;- c('Brazil','Argentina','Peru','Paraguay','Ecuador','Chile','Uruguay','French Guiana','Suriname','Venezuela','Colombia','Guyana','Bolivia','Panama','Costa Rica')
+paises
 ```
 
----
-
-## Plota o mapa - Mapa base
-
-
+```
+##  [1] "Brazil"        "Argentina"     "Peru"         
+##  [4] "Paraguay"      "Ecuador"       "Chile"        
+##  [7] "Uruguay"       "French Guiana" "Suriname"     
+## [10] "Venezuela"     "Colombia"      "Guyana"       
+## [13] "Bolivia"       "Panama"        "Costa Rica"
+```
 
 ---
 
@@ -197,10 +257,20 @@ paises &lt;- c('Brazil','Argentina','Peru','Paraguay','Ecuador','Chile','Uruguay
 
 
 ```r
-*maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
+?maps::map
+?map
 ```
 
-![](index_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+---
+
+## Plota o mapa - Mapa base
+
+
+```r
+*maps::map(regions = paises, fill = FALSE, xlim = x1, ylim = y1)
+```
+
+![](index_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -212,7 +282,7 @@ maps::map(regions = paises, fill = F, xlim = x1, ylim = y1)
 *points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = protium$cex.p)
 ```
 
-![](index_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -230,7 +300,7 @@ points(long,lat, pch = protium$pontos, col = cores.map, bg = cores.map, cex = pr
 ]
 
 .pull-right[
-![](index_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
 ]
 
 
@@ -252,7 +322,7 @@ axis(side=3,las=1)
 ]
 
 .pull-right[
-![](index_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
 ]
 
 
@@ -275,7 +345,7 @@ map.scale(max(long) - 12, ratio = F, cex = 1, metric = T)
 ]
 
 .pull-right[
-![](index_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -298,7 +368,7 @@ abline(h=0,lwd=0.5,lty="dotted")
 ]
 
 .pull-right[
-![](index_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -322,7 +392,7 @@ abline(h=0,lwd=0.5,lty="dotted")
 ]
 
 .pull-right[
-![](index_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](index_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 ]
 
 ---
@@ -357,7 +427,7 @@ class: inverse, center, middle
 ### [Curso básico de introdução ao R](https://intror.netlify.app)
 
 .center[
-&lt;img src="figures/cursoR.png" style="width:1000px;height:500px;"&gt;
+&lt;img src="figuras/cursoR.png" style="width:1000px;height:500px;"&gt;
 ]
 
 ---
@@ -365,7 +435,7 @@ class: inverse, center, middle
 ### [Making maps with R](http://www.molecularecologist.com/2012/09/making-maps-with-r/)
 
 .center[
-&lt;img src="figures/molecol.png" style="width:1000px;height:500px;"&gt;
+&lt;img src="figuras/molecol.png" style="width:1000px;height:500px;"&gt;
 ]
 
 ---
@@ -373,7 +443,7 @@ class: inverse, center, middle
 ### [Maps in R: Introduction](http://www.milanor.net/blog/?p=534)
 
 .center[
-&lt;img src="figures/milano.png" style="width:1000px;height:500px;"&gt;
+&lt;img src="figuras/milano.png" style="width:1000px;height:500px;"&gt;
 ]
 
 ---
@@ -381,8 +451,21 @@ class: inverse, center, middle
 ### [Geocomputation with R](https://geocompr.robinlovelace.net/index.html)
 
 .center[
-&lt;img src="figures/geocomputation.png" style="width:1000px;height:500px;"&gt;
+&lt;img src="figuras/geocomputation.png" style="width:1000px;height:500px;"&gt;
 ]
+
+---
+class:inverse, center, middle
+
+# Checagem e limpeza de dados
+
+--
+
+## Uma pequena demonstração de como faço uma limpeza superficial de dados utilizando o pacote [dplyr](https://cran.r-project.org/web/packages/dplyr/vignettes/dplyr.html)
+
+--
+
+### Aprenda mais em -&gt;-&gt;-&gt;.bg-white[[Usando o dplyr](https://intror.netlify.app/base-tidyverse.html#usando-o-dplyr)]&lt;-&lt;-&lt;-!
 
 ---
 
@@ -391,27 +474,7 @@ class: inverse, center, middle
 
 ```r
 library("dplyr")
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-```
-
-```
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-```
-
-```
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
-dad &lt;- 
+dad_pre &lt;- 
   read.table(
     file = url(
       "https://raw.githubusercontent.com/ricoperdiz/Tutorials/master/R_make_a_map/nybg_paracouchini.csv"
@@ -420,14 +483,137 @@ dad &lt;-
     as.is = TRUE,
     sep = '\t',
     dec = '.'
-  ) %&gt;% 
-  select(recordedBy, recordNumber, decimalLatitude, decimalLongitude, identifiedBy, specificEpithet) %&gt;%
-  arrange(recordedBy, recordNumber)
+  )
+head(dad_pre)
+```
+
+```
+##                                     id institutionCode
+## 1 928940c3-fd41-4d3e-92ff-333b661e8149              NY
+## 2 7bb25ac9-f899-428c-b8f5-2b5b4cd16317              NY
+## 3 15dc67bf-c1df-44d5-9112-30fa5e424466              NY
+## 4 12a00cca-9459-4c26-8ffd-673f2a675427              NY
+## 5 ef9d56c1-096b-409f-994e-612499591fb2              NY
+## 6 a0c243d9-a314-4be8-8be6-2ef925cb9bc1              NY
+##                 datasetName basisOfRecord catalogNumber
+## 1 New York Botanical Garden             S       1274378
+## 2 New York Botanical Garden             S       1274415
+## 3 New York Botanical Garden             S       1274436
+## 4 New York Botanical Garden             S       1274394
+## 5 New York Botanical Garden             S       1274435
+## 6 New York Botanical Garden             S       1274416
+##          recordedBy recordNumber
+## 1      A. Fernandez         6921
+## 2      Y. Fernandez          398
+## 3    F. J. Breteler         4803
+## 4 B. G. Stergios D.        15013
+## 5       H. L. Clark         7285
+## 6      Y. Fernandez          448
+##                                      occurrenceDetails
+## 1 http://sweetgum.nybg.org/vh/specimen.php?irn=1514785
+## 2 http://sweetgum.nybg.org/vh/specimen.php?irn=1515243
+## 3 http://sweetgum.nybg.org/vh/specimen.php?irn=1515373
+## 4 http://sweetgum.nybg.org/vh/specimen.php?irn=1515163
+## 5 http://sweetgum.nybg.org/vh/specimen.php?irn=1515372
+## 6 http://sweetgum.nybg.org/vh/specimen.php?irn=1515246
+##   eventDate     continent   country stateProvince
+## 1      1990 South America Venezuela      Amazonas
+## 2      1989 South America Venezuela       Bolívar
+## 3      1965 South America Venezuela      Amazonas
+## 4      1991 South America Venezuela      Amazonas
+## 5      1980 South America Venezuela      Amazonas
+## 6      1989 South America Venezuela       Bolívar
+##         county
+## 1 Mun. Atabapo
+## 2        Sucre
+## 3             
+## 4             
+## 5             
+## 6        Sucre
+##                                                                                                                             locality
+## 1                                                                                                            Río Ocamo, Cerro Mawedi
+## 2                                  Peniplanicie y lomerios ubicados al sureste de Pie de Salto (Río Caura), aprox. a 20 en helicópt.
+## 3                                                                                         Orinoco R. Southern part of Isla del Ratón
+## 4                                                                                                                  Mision Río Mavaca
+## 5 San Carlos de Rio Negro, ca. 20 km S of confluence of Rio Negro and Brazo Casiquiare.  Main study site, 4.3 km NNE on Solano road.
+## 6                                                                                           Aprox. 70 km al SE de Hato la Vergareña.
+##   minimumElevationInMeters maximumElevationInMeters
+## 1                      340                      340
+## 2                      308                      308
+## 3                       90                       90
+## 4                      185                      185
+## 5                      119                       NA
+## 6                      293                       NA
+##   decimalLatitude decimalLongitude         geodeticDatum
+## 1         2.96667         -64.6833                      
+## 2         6.23000         -64.2000                      
+## 3         5.03000         -67.7700                      
+## 4         2.43333         -65.1167 Coordinates on label.
+## 5         1.93000         -67.0500                 Label
+## 6         6.47000         -64.2000                 Label
+##   coordinateUncertaintyInMeters identifiedBy typeStatus
+## 1                            NA   D. C. Daly         NA
+## 2                            NA   D. C. Daly         NA
+## 3                            NA   D. C. Daly         NA
+## 4                            NA    A. Licata         NA
+## 5                            NA   D. C. Daly         NA
+## 6                            NA N. Cuello A.         NA
+##                         scientificName kingdom        phylum
+## 1 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+## 2 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+## 3 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+## 4 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+## 5 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+## 6 Protium aracouchini (Aubl.) Marchand Plantae Magnoliophyta
+##        family   genus specificEpithet infraspecificEpithet
+## 1 Burseraceae Protium     aracouchini                   NA
+## 2 Burseraceae Protium     aracouchini                   NA
+## 3 Burseraceae Protium     aracouchini                   NA
+## 4 Burseraceae Protium     aracouchini                   NA
+## 5 Burseraceae Protium     aracouchini                   NA
+## 6 Burseraceae Protium     aracouchini                   NA
+##   taxonRank scientificNameAuthorship
+## 1        NA         (Aubl.) Marchand
+## 2        NA         (Aubl.) Marchand
+## 3        NA         (Aubl.) Marchand
+## 4        NA         (Aubl.) Marchand
+## 5        NA         (Aubl.) Marchand
+## 6        NA         (Aubl.) Marchand
 ```
 
 ---
 
 ## Checagem de dados - 02
+
+
+```r
+dad &lt;- 
+  dad_pre %&gt;% 
+  select(recordedBy, recordNumber, decimalLatitude, decimalLongitude, identifiedBy, specificEpithet) %&gt;%
+  arrange(recordedBy, recordNumber)
+head(dad)
+```
+
+```
+##   recordedBy recordNumber decimalLatitude decimalLongitude
+## 1                                      NA               NA
+## 2                                      NA               NA
+## 3                                      NA               NA
+## 4                                      NA               NA
+## 5                                      NA               NA
+## 6                                      NA               NA
+##   identifiedBy specificEpithet
+## 1                  aracouchini
+## 2                  aracouchini
+## 3                  aracouchini
+## 4                  aracouchini
+## 5                  aracouchini
+## 6                  aracouchini
+```
+
+---
+
+## Checagem de dados - 03
 
 
 ```r
@@ -442,11 +628,29 @@ dados &lt;-
   filter(decimalLatitude != '' | decimalLongitude != '') %&gt;%
   #filtra apenas os especimes identificados pelo especialista da família Burseraceae
   filter(identifiedBy == 'D. C. Daly')
+head(dados)
+```
+
+```
+##          recordedBy recordNumber decimalLatitude
+## 1 A. A. de Oliveira          278        -2.31537
+## 2     A. C. Londoño         1486        -0.57000
+## 3     A. C. Londoño          493        -0.57000
+## 4       A. C. Weber          s/n         0.30000
+## 5            A. Dik         1579        -1.00000
+## 6            A. Dik         1606        -1.03000
+##   decimalLongitude identifiedBy specificEpithet
+## 1         -59.6855   D. C. Daly     aracouchini
+## 2         -72.1300   D. C. Daly     aracouchini
+## 3         -72.1300   D. C. Daly     aracouchini
+## 4         -66.7000   D. C. Daly     aracouchini
+## 5         -76.1800   D. C. Daly     aracouchini
+## 6         -76.1800   D. C. Daly     aracouchini
 ```
 
 ---
 
-## Checagem de dados - 03
+## Checagem de dados - 04
 
 
 ```r
@@ -459,19 +663,12 @@ dados$recordedBy &lt;-
   gsub(' ', '_', .) %&gt;%
   gsub("'", '_', .) %&gt;%
   gsub('__', '_', .)
+head(dados$recordedBy)
 ```
 
----
-
-## Checagem de dados - 04
-
-
-```r
-#faz-se o mesmo para os numeros de coleta
-dados$recordNumber &lt;- 
-  gsub('/','_', dados$recordNumber) %&gt;%
-  gsub(' ', '_', .) %&gt;%
-  gsub('\\.', '_', .)
+```
+## [1] "A_A_de_Oliveira" "A_C_Londoño"     "A_C_Londoño"    
+## [4] "A_C_Weber"       "A_Dik"           "A_Dik"
 ```
 
 ---
@@ -480,12 +677,17 @@ dados$recordNumber &lt;-
 
 
 ```r
-#cria o identificador de coleta e especie
-arac &lt;- dados %&gt;%
-  mutate( ID = paste(recordedBy,recordNumber, sep = '_'), Species = paste('Protium', specificEpithet, sep = ' '))
-arac$ID &lt;- gsub('__','_',arac$ID)
+#faz-se o mesmo para os numeros de coleta
+dados$recordNumber &lt;- 
+  gsub('/','_', dados$recordNumber) %&gt;%
+  gsub(' ', '_', .) %&gt;%
+  gsub('\\.', '_', .)
+head(dados$recordNumber)
 ```
 
+```
+## [1] "278"  "1486" "493"  "s_n"  "1579" "1606"
+```
 
 ---
 
@@ -493,8 +695,38 @@ arac$ID &lt;- gsub('__','_',arac$ID)
 
 
 ```r
-#quem sao os dados unicos
-unicos &lt;- unique(arac$ID)
+#cria o identificador de coleta e especie
+arac &lt;- 
+  dados %&gt;%
+  mutate(
+    ID = paste(recordedBy,recordNumber, sep = '_'),
+    Species = paste('Protium', specificEpithet, sep = ' '))
+arac$ID &lt;- gsub('__','_',arac$ID)
+head(arac)
+```
+
+```
+##        recordedBy recordNumber decimalLatitude
+## 1 A_A_de_Oliveira          278        -2.31537
+## 2     A_C_Londoño         1486        -0.57000
+## 3     A_C_Londoño          493        -0.57000
+## 4       A_C_Weber          s_n         0.30000
+## 5           A_Dik         1579        -1.00000
+## 6           A_Dik         1606        -1.03000
+##   decimalLongitude identifiedBy specificEpithet
+## 1         -59.6855   D. C. Daly     aracouchini
+## 2         -72.1300   D. C. Daly     aracouchini
+## 3         -72.1300   D. C. Daly     aracouchini
+## 4         -66.7000   D. C. Daly     aracouchini
+## 5         -76.1800   D. C. Daly     aracouchini
+## 6         -76.1800   D. C. Daly     aracouchini
+##                    ID             Species
+## 1 A_A_de_Oliveira_278 Protium aracouchini
+## 2    A_C_Londoño_1486 Protium aracouchini
+## 3     A_C_Londoño_493 Protium aracouchini
+## 4       A_C_Weber_s_n Protium aracouchini
+## 5          A_Dik_1579 Protium aracouchini
+## 6          A_Dik_1606 Protium aracouchini
 ```
 
 
@@ -504,17 +736,53 @@ unicos &lt;- unique(arac$ID)
 
 
 ```r
-#agora filtra os dados unicos no dataframe, eliminando os duplicados
-#faz-se uso da funcao match para obter esse resultado
-prot_arac &lt;- 
-  match(unicos, arac$ID) %&gt;%
-  dados[.,]
+#quem sao os dados unicos
+unicos &lt;- unique(arac$ID)
+head(unicos)
+```
+
+```
+## [1] "A_A_de_Oliveira_278" "A_C_Londoño_1486"   
+## [3] "A_C_Londoño_493"     "A_C_Weber_s_n"      
+## [5] "A_Dik_1579"          "A_Dik_1606"
 ```
 
 
 ---
 
 ## Checagem de dados - 08
+
+
+```r
+#agora filtra os dados unicos no dataframe, eliminando os duplicados
+#faz-se uso da funcao match para obter esse resultado
+prot_arac &lt;- 
+  match(unicos, arac$ID) %&gt;%
+  dados[.,]
+head(prot_arac)
+```
+
+```
+##        recordedBy recordNumber decimalLatitude
+## 1 A_A_de_Oliveira          278        -2.31537
+## 2     A_C_Londoño         1486        -0.57000
+## 3     A_C_Londoño          493        -0.57000
+## 4       A_C_Weber          s_n         0.30000
+## 5           A_Dik         1579        -1.00000
+## 6           A_Dik         1606        -1.03000
+##   decimalLongitude identifiedBy specificEpithet
+## 1         -59.6855   D. C. Daly     aracouchini
+## 2         -72.1300   D. C. Daly     aracouchini
+## 3         -72.1300   D. C. Daly     aracouchini
+## 4         -66.7000   D. C. Daly     aracouchini
+## 5         -76.1800   D. C. Daly     aracouchini
+## 6         -76.1800   D. C. Daly     aracouchini
+```
+
+
+---
+
+## Checagem de dados - 09
 
 
 ```r
@@ -534,7 +802,7 @@ head(sort(prot_arac$decimalLongitude))
 
 ---
 
-## Checagem de dados - 09
+## Checagem de dados - 10
 
 
 ```r
@@ -542,6 +810,24 @@ head(sort(prot_arac$decimalLongitude))
 prot_arac_limpo &lt;-
   prot_arac %&gt;%
   filter(decimalLongitude &gt; -80)
+head(prot_arac_limpo)
+```
+
+```
+##        recordedBy recordNumber decimalLatitude
+## 1 A_A_de_Oliveira          278        -2.31537
+## 2     A_C_Londoño         1486        -0.57000
+## 3     A_C_Londoño          493        -0.57000
+## 4       A_C_Weber          s_n         0.30000
+## 5           A_Dik         1579        -1.00000
+## 6           A_Dik         1606        -1.03000
+##   decimalLongitude identifiedBy specificEpithet
+## 1         -59.6855   D. C. Daly     aracouchini
+## 2         -72.1300   D. C. Daly     aracouchini
+## 3         -72.1300   D. C. Daly     aracouchini
+## 4         -66.7000   D. C. Daly     aracouchini
+## 5         -76.1800   D. C. Daly     aracouchini
+## 6         -76.1800   D. C. Daly     aracouchini
 ```
 
 ---
@@ -550,7 +836,7 @@ class: inverse, center
 # Grato!
 
 .pull-left[
-![](figures/Meu-agradecimento.gif)
+![](figuras/Meu-agradecimento.gif)
 ]
 
 .pull-right[
@@ -567,7 +853,7 @@ class: inverse, center
 "highlightStyle": "github",
 "highlightLines": true,
 "countIncrementalSlides": false,
-"ratio": "16:9",
+"ratio": "191:100",
 "navigation": {
 "scroll": false,
 "click": true
