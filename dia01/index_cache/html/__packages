@@ -1,9 +1,10 @@
 base
+xaringanthemer
+metathis
 readr
 dplyr
 purrr
 tidyr
-xaringanthemer
 RefManageR
 maps
 RColorBrewer

@@ -170,13 +170,13 @@ layout: true
 
 ---
 
-## Versão simplificada do tutorial [Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
+## Versão simplificada do tutorial [Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/2020/03/06/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
 
 ### Carregar [pacotes](#pacotes)
 
 ### Importar [dados](#dados)
 
-### .red[[Checagem e limpeza de dados](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)]
+### .red[[Checagem e limpeza de dados](https://ricardoperdiz.com/2020/03/06/obtendo-dados-e-plotando-mapas-no-r-versao-3/)]
 
 ### Criação de [variáveis](#variaveis)
 
@@ -570,7 +570,7 @@ class: inverse, center, middle
 
 ## Minicurso baseado na postagem abaixo:
 
-[Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
+[Obtendo dados e plotando mapas no R ](https://ricardoperdiz.com/2020/03/06/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
 
 ![Postagem](figuras/postagem.png)
 
