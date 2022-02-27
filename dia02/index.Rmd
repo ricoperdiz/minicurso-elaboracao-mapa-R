@@ -117,7 +117,7 @@ meta() %>%
 
 --
 
-* [Tutorial](https://ricardoperdiz.com/post/2020_03_29_r-obtendo-plotando-dados/obtendo-dados-e-plotando-mapas-no-r-versao-3/)
+* [Tutorial](https://www.ricardoperdiz.com/blog/2020-03-obtendo-dados-e-plotando-mapas-no-r-versão-3/)
 
 --
 
