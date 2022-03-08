@@ -34,3 +34,10 @@ Também sugiro que instalem o [RStudio](https://www.rstudio.com/products/rstudio
 
 * Apresentação do dia 01: [Slides](https://minicurso-elaboracao-mapa-r-dia01.netlify.app) | [Código fonte](https://github.com/ricoperdiz/minicurso-elaboracao-mapa-R/blob/main/dia01/index.Rmd)  
 * Apresentação do dia 02: [Slides](https://minicurso-elaboracao-mapa-r-dia02.netlify.app) | [Código fonte](https://github.com/ricoperdiz/minicurso-elaboracao-mapa-R/blob/main/dia02/index.Rmd)  
+
+# Contatos
+
+GitHub: https://github.com/ricoperdiz  
+Twitter: https://twitter.com/ricoperdiz  
+Sítio pessoal: https://www.ricardoperdiz.com  
+Correio eletrônico: ricardoperdiz@yahoo.com  
